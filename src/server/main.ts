@@ -103,7 +103,7 @@ export async function serverListener(
       return;
     }
 
-    if ((!username || !password) && endpoint.auth) {
+    if ((!username || !password) && !endpoint.tokenAuth && endpoint.auth) {
       res.statusCode = 400;
 
       writeToRes(

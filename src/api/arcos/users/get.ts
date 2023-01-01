@@ -13,9 +13,11 @@ export async function ArcOSUsersGet(_: IncomingMessage, res: ServerResponse) {
   for (let i = 0; i < entries.length; i++) {
     returnValue.push({
       username: entries[i][0],
-      profilePicture: entries[i][1].acc.profilePicture,
-      enabled: entries[i][1].acc.enabled,
-      admin: entries[i][1].acc.admin,
+      acc: {
+        enabled: entries[i][1].acc.enabled,
+        admin: entries[i][1].acc.admin,
+        profilePicture: entries[i][1].acc.profilePicture,
+      },
     });
   }
 
