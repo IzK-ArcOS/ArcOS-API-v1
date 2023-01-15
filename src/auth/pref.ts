@@ -27,6 +27,7 @@ export interface UserPreferences {
 
   disabledApps: string[];
   autoRun: string[];
+  devmode: boolean;
 
   acc: {
     enabled: boolean;
@@ -73,4 +74,5 @@ export const DefaultUserdata: UserPreferences = {
   },
   disabledApps: [],
   autoRun: [],
+  devmode: false,
 };
