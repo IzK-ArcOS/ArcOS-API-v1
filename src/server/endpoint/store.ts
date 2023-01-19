@@ -58,7 +58,7 @@ export const ArcEval = new Map<string, Endpoint>([
       tokenAuth: true,
       checkAuth: true,
       admin: false,
-      requiredParams: [{ key: "data", format: "base64" }],
+      requiredParams: [],
       optionalParams: [],
       description: "Get properties of the authenticated user",
       func: ArcOSUserPropertiesUpdate,

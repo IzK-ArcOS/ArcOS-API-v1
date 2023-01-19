@@ -8,41 +8,54 @@ export async function ArcOSUserPropertiesUpdate(
   req: IncomingMessage,
   res: ServerResponse
 ) {
-  const username = (await verifyTokenByReq(req)) || "";
-  const query = url.parse(req.url as string, true).query;
-  const newData = atob(query.data as string);
+  const chunks: Buffer[] = [];
 
-  let newJson = {};
+  req.on("data", (chunk) => {
+    chunks.push(chunk);
+  });
 
-  try {
-    newJson = JSON.parse(newData);
-  } catch {
-    res.statusCode = 400;
+  req.on("end", async () => {
+    console.log("all parts/chunks have arrived");
 
-    return writeToRes(
-      res,
-      createErrorRes(
-        "Can't update user properties",
-        "Parameter 'data' could not be parsed as JSON."
-      )
-    );
-  }
+    const data = Buffer.concat(chunks).toString();
 
-  const pdb = await getDB("pref");
+    const username = (await verifyTokenByReq(req)) || "";
 
-  if (!pdb) {
-    res.statusCode = 500;
+    let newJson = {};
 
-    return writeToRes(
-      res,
-      createErrorRes(
-        "Can't update user properties",
-        "A database error occured. Please try again later."
-      )
-    );
-  }
+    try {
+      newJson = JSON.parse(data);
+    } catch {
+      res.statusCode = 400;
 
-  pdb[username] = newJson;
+      return writeToRes(
+        res,
+        createErrorRes(
+          "Can't update user properties",
+          "Parameter 'data' could not be parsed as JSON."
+        )
+      );
+    }
 
-  await commitChanges("update user properties", res, { db: "pref", data: pdb });
+    const pdb = await getDB("pref");
+
+    if (!pdb) {
+      res.statusCode = 500;
+
+      return writeToRes(
+        res,
+        createErrorRes(
+          "Can't update user properties",
+          "A database error occured. Please try again later."
+        )
+      );
+    }
+
+    pdb[username] = newJson;
+
+    await commitChanges("update user properties", res, {
+      db: "pref",
+      data: pdb,
+    });
+  });
 }
