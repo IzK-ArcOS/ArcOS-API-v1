@@ -53,7 +53,7 @@ export const DefaultUserdata: UserPreferences = {
       bigtb: true,
     },
     desktop: {
-      wallpaper: "img11",
+      wallpaper: "img04",
       icons: true,
     },
     start: {
