@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { getAuth } from "../../../auth/get";
 import { createUser } from "../../../auth/user";
-import { createErrorRes, Ok } from "../../../server/return";
+import { Error, Ok } from "../../../server/return";
 
 export async function ArcOSUserCreate(
   req: IncomingMessage,
@@ -24,7 +24,7 @@ export async function ArcOSUserCreate(
 
     Ok(
       res,
-      createErrorRes(
+      Error(
         "User not created",
         `Error code returned by user creator: ${createStatus.toUpperCase()}`
       )
@@ -32,7 +32,7 @@ export async function ArcOSUserCreate(
   } else {
     Ok(
       res,
-      createErrorRes(
+      Error(
         "User created",
         "User created successfully. Use '/auth' to generate a token for the account.",
         true

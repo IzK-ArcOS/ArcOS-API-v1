@@ -2,7 +2,7 @@ import { DB, dbRoot, DBs } from "../env/main";
 import { readFile, rm, stat, writeFile } from "fs/promises";
 import { existsSync } from "fs";
 import { IncomingMessage, ServerResponse } from "http";
-import { createErrorRes, Ok } from "../server/return";
+import { Error, Ok } from "../server/return";
 
 export async function getDB(
   name: string
@@ -82,7 +82,7 @@ export async function commitChanges(
 
         Ok(
           res,
-          createErrorRes(
+          Error(
             "Write failed",
             `Cannot ${source}: database change did not process.`,
             false
@@ -94,7 +94,7 @@ export async function commitChanges(
 
       Ok(
         res,
-        createErrorRes(
+        Error(
           "Write completed",
           `Endpoint '${source}' completed successfully.`,
           true

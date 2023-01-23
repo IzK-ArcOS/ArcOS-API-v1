@@ -1,6 +1,6 @@
 import url from "url";
 import { IncomingMessage, ServerResponse } from "http";
-import { createErrorRes, Ok } from "../../../../server/return";
+import { Error, Ok } from "../../../../server/return";
 import { commitChanges, getDB } from "../../../../db/main";
 import { verifyTokenByReq } from "../../../../auth/token";
 
@@ -30,7 +30,7 @@ export async function ArcOSUserPropertiesUpdate(
 
       return Ok(
         res,
-        createErrorRes(
+        Error(
           "Can't update user properties",
           "Parameter 'data' could not be parsed as JSON."
         )
@@ -44,7 +44,7 @@ export async function ArcOSUserPropertiesUpdate(
 
       return Ok(
         res,
-        createErrorRes(
+        Error(
           "Can't update user properties",
           "A database error occured. Please try again later."
         )

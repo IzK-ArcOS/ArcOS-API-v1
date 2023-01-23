@@ -1,10 +1,6 @@
 import { ServerResponse } from "http";
 
-export function createErrorRes(
-  title: string,
-  message: string,
-  valid: boolean = false
-) {
+export function Error(title: string, message: string, valid: boolean = false) {
   return JSON.stringify({
     error: { title, message },
     valid,

@@ -2,7 +2,7 @@ import url from "url";
 import path from "path";
 import http, { IncomingMessage, RequestListener, ServerResponse } from "http";
 import { Endpoint } from "./endpoint/main";
-import { createErrorRes, Ok } from "./return";
+import { Error, Ok } from "./return";
 import { verifyDBs } from "../db/main";
 import { checkParams } from "./checkparams";
 import { getAuth } from "../auth/get";
@@ -57,7 +57,7 @@ export async function serverListener(
 
     Ok(
       res,
-      createErrorRes(
+      Error(
         "Request cancelled",
         "Cannot process a request that doesn't contain a valid URL.",
         false
@@ -94,10 +94,7 @@ export async function serverListener(
 
       Ok(
         res,
-        createErrorRes(
-          "Disabled",
-          "Your account is disabled and cannot be used."
-        )
+        Error("Disabled", "Your account is disabled and cannot be used.")
       );
 
       return;
@@ -108,7 +105,7 @@ export async function serverListener(
 
       Ok(
         res,
-        createErrorRes(
+        Error(
           "Unauthorized",
           "This endpoint requires authentication, which wasn't provided."
         )
@@ -122,7 +119,7 @@ export async function serverListener(
 
       Ok(
         res,
-        createErrorRes(
+        Error(
           "Access denied",
           "Cannot access entrypoint: invalid credentials specified!"
         )
@@ -136,7 +133,7 @@ export async function serverListener(
 
       Ok(
         res,
-        createErrorRes(
+        Error(
           "Access denied",
           "Cannot access entrypoint: invalid token specified!"
         )
@@ -155,7 +152,7 @@ export async function serverListener(
 
         Ok(
           res,
-          createErrorRes(
+          Error(
             "Server error",
             "The endpoint failed to execute because of an unhandled exception.",
             false
@@ -170,7 +167,7 @@ export async function serverListener(
 
     Ok(
       res,
-      createErrorRes(
+      Error(
         "Bad request",
         "This endpoint requires some parameters that weren't provided."
       )
@@ -184,10 +181,7 @@ export async function serverListener(
     );
     res.statusCode = 404;
 
-    Ok(
-      res,
-      createErrorRes("Not found", "The specified API path could not be found.")
-    );
+    Ok(res, Error("Not found", "The specified API path could not be found."));
   }
 
   res.end();
