@@ -1,6 +1,6 @@
 import url from "url";
 import { IncomingMessage, ServerResponse } from "http";
-import { createErrorRes, writeToRes } from "../../../../server/return";
+import { createErrorRes, Ok } from "../../../../server/return";
 import { commitChanges, getDB } from "../../../../db/main";
 import { verifyTokenByReq } from "../../../../auth/token";
 
@@ -28,7 +28,7 @@ export async function ArcOSUserPropertiesUpdate(
     } catch {
       res.statusCode = 400;
 
-      return writeToRes(
+      return Ok(
         res,
         createErrorRes(
           "Can't update user properties",
@@ -42,7 +42,7 @@ export async function ArcOSUserPropertiesUpdate(
     if (!pdb) {
       res.statusCode = 500;
 
-      return writeToRes(
+      return Ok(
         res,
         createErrorRes(
           "Can't update user properties",

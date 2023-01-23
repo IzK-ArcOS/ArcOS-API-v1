@@ -2,7 +2,7 @@ import url from "url";
 import path from "path";
 import http, { IncomingMessage, RequestListener, ServerResponse } from "http";
 import { Endpoint } from "./endpoint/main";
-import { createErrorRes, writeToRes } from "./return";
+import { createErrorRes, Ok } from "./return";
 import { verifyDBs } from "../db/main";
 import { checkParams } from "./checkparams";
 import { getAuth } from "../auth/get";
@@ -55,7 +55,7 @@ export async function serverListener(
   if (typeof req.url !== "string") {
     res.statusCode = 400;
 
-    writeToRes(
+    Ok(
       res,
       createErrorRes(
         "Request cancelled",
@@ -92,7 +92,7 @@ export async function serverListener(
     if (await isDisabled(username)) {
       res.statusCode = 401;
 
-      writeToRes(
+      Ok(
         res,
         createErrorRes(
           "Disabled",
@@ -106,7 +106,7 @@ export async function serverListener(
     if ((!username || !password) && !endpoint.tokenAuth && endpoint.auth) {
       res.statusCode = 400;
 
-      writeToRes(
+      Ok(
         res,
         createErrorRes(
           "Unauthorized",
@@ -120,7 +120,7 @@ export async function serverListener(
     if (!correctBasic && !endpoint.tokenAuth && endpoint.auth) {
       res.statusCode = 401;
 
-      writeToRes(
+      Ok(
         res,
         createErrorRes(
           "Access denied",
@@ -134,7 +134,7 @@ export async function serverListener(
     if (!correctToken && endpoint.tokenAuth && endpoint.auth) {
       res.statusCode = 401;
 
-      writeToRes(
+      Ok(
         res,
         createErrorRes(
           "Access denied",
@@ -153,7 +153,7 @@ export async function serverListener(
       } catch {
         res.statusCode = 500;
 
-        writeToRes(
+        Ok(
           res,
           createErrorRes(
             "Server error",
@@ -168,7 +168,7 @@ export async function serverListener(
 
     res.statusCode = 400;
 
-    writeToRes(
+    Ok(
       res,
       createErrorRes(
         "Bad request",
@@ -184,7 +184,7 @@ export async function serverListener(
     );
     res.statusCode = 404;
 
-    writeToRes(
+    Ok(
       res,
       createErrorRes("Not found", "The specified API path could not be found.")
     );

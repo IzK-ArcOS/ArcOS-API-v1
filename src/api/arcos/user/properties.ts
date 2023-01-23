@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { verifyTokenByReq } from "../../../auth/token";
 import { getDB } from "../../../db/main";
-import { createErrorRes, writeToRes } from "../../../server/return";
+import { createErrorRes, Ok } from "../../../server/return";
 
 export async function ArcOSUserProperties(
   req: IncomingMessage,
@@ -11,7 +11,7 @@ export async function ArcOSUserProperties(
 
   if (!username) {
     res.statusCode = 401;
-    return writeToRes(
+    return Ok(
       res,
       createErrorRes("Can't get properties", "User could not be found.")
     );
@@ -24,7 +24,7 @@ export async function ArcOSUserProperties(
   if (!pdb) {
     res.statusCode = 500;
 
-    return writeToRes(
+    return Ok(
       res,
       createErrorRes(
         "Can't get properties",
@@ -33,5 +33,5 @@ export async function ArcOSUserProperties(
     );
   }
 
-  writeToRes(res, JSON.stringify({ ...pdb[username], valid: true }));
+  Ok(res, JSON.stringify({ ...pdb[username], valid: true }));
 }

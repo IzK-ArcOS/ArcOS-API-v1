@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { getAuth } from "../../../auth/get";
 import { createUser } from "../../../auth/user";
-import { createErrorRes, writeToRes } from "../../../server/return";
+import { createErrorRes, Ok } from "../../../server/return";
 
 export async function ArcOSUserCreate(
   req: IncomingMessage,
@@ -22,7 +22,7 @@ export async function ArcOSUserCreate(
 
     res.statusCode = codes[createStatus];
 
-    writeToRes(
+    Ok(
       res,
       createErrorRes(
         "User not created",
@@ -30,7 +30,7 @@ export async function ArcOSUserCreate(
       )
     );
   } else {
-    writeToRes(
+    Ok(
       res,
       createErrorRes(
         "User created",

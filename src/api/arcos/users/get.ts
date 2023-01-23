@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { UserPreferences } from "../../../auth/pref";
 import { getDB } from "../../../db/main";
-import { createDataRes, writeToRes } from "../../../server/return";
+import { createDataRes, Ok } from "../../../server/return";
 
 export async function ArcOSUsersGet(_: IncomingMessage, res: ServerResponse) {
   const pdb = (await getDB("pref")) as { [key: string]: UserPreferences };
@@ -21,5 +21,5 @@ export async function ArcOSUsersGet(_: IncomingMessage, res: ServerResponse) {
     });
   }
 
-  return writeToRes(res, createDataRes(returnValue, true));
+  return Ok(res, createDataRes(returnValue, true));
 }

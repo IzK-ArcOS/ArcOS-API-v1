@@ -2,7 +2,7 @@ import { DB, dbRoot, DBs } from "../env/main";
 import { readFile, rm, stat, writeFile } from "fs/promises";
 import { existsSync } from "fs";
 import { IncomingMessage, ServerResponse } from "http";
-import { createErrorRes, writeToRes } from "../server/return";
+import { createErrorRes, Ok } from "../server/return";
 
 export async function getDB(
   name: string
@@ -80,7 +80,7 @@ export async function commitChanges(
       if (!written) {
         res.statusCode = 304;
 
-        writeToRes(
+        Ok(
           res,
           createErrorRes(
             "Write failed",
@@ -92,7 +92,7 @@ export async function commitChanges(
         return;
       }
 
-      writeToRes(
+      Ok(
         res,
         createErrorRes(
           "Write completed",

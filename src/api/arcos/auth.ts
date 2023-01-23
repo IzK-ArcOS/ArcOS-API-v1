@@ -3,7 +3,7 @@ import { getAuth } from "../../auth/get";
 import { randomUUID } from "crypto";
 import { getDB, setDB } from "../../db/main";
 import { TokenDB } from "../../tokens/interface";
-import { createDataRes, createErrorRes, writeToRes } from "../../server/return";
+import { createDataRes, createErrorRes, Ok } from "../../server/return";
 
 export async function ArcOSAuth(req: IncomingMessage, res: ServerResponse) {
   const { username } = getAuth(req);
@@ -18,7 +18,7 @@ export async function ArcOSAuth(req: IncomingMessage, res: ServerResponse) {
 
   if (!valid) {
     res.statusCode = 500;
-    return writeToRes(
+    return Ok(
       res,
       createErrorRes(
         "Could not generate token",
@@ -27,7 +27,7 @@ export async function ArcOSAuth(req: IncomingMessage, res: ServerResponse) {
     );
   }
 
-  writeToRes(
+  Ok(
     res,
     createDataRes(
       {

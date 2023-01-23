@@ -26,7 +26,7 @@ export function createDataRes(
   });
 }
 
-export function writeToRes(res: ServerResponse, data: string) {
+export function Ok(res: ServerResponse, data: string) {
   try {
     if (!res.destroyed) {
       res.write(data);

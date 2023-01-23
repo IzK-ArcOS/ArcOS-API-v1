@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from "http";
 import url from "url";
-import { writeToRes } from "../../server/return";
+import { Ok } from "../../server/return";
 
 export async function ArcOSConnect(req: IncomingMessage, res: ServerResponse) {
-  writeToRes(
+  Ok(
     res,
     JSON.stringify({
       platform: "ArcOS",
