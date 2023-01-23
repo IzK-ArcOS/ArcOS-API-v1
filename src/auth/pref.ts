@@ -38,7 +38,13 @@ export interface UserPreferences {
     level: number;
     muted: boolean;
   };
+
+  appdata: AppData;
 }
+
+export type AppData = {
+  [key: string]: { [key: string]: number | boolean | string | object };
+};
 
 export const DefaultUserdata: UserPreferences = {
   sh: {
@@ -75,4 +81,5 @@ export const DefaultUserdata: UserPreferences = {
   disabledApps: [],
   autoRun: [],
   devmode: false,
+  appdata: {},
 };
