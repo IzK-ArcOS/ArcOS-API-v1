@@ -10,11 +10,14 @@ export interface UserPreferences {
     window: {
       bigtb: boolean; //done
       lefttb: boolean; //done
+      traffic: boolean;
     };
 
     desktop: {
       wallpaper: string | null;
       icons: boolean;
+      theme: "dark" | "light";
+      sharp: boolean;
     };
 
     start: {
@@ -57,13 +60,16 @@ export const DefaultUserdata: UserPreferences = {
     window: {
       lefttb: false,
       bigtb: true,
+      traffic: false,
     },
     desktop: {
       wallpaper: "img04",
       icons: true,
+      theme: "dark",
+      sharp: false,
     },
     start: {
-      small: false,
+      small: true,
     },
     anim: true,
 
