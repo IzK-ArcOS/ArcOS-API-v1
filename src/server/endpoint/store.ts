@@ -1,5 +1,6 @@
 import { ArcOSAuth } from "../../api/arcos/auth";
 import { ArcOSConnect } from "../../api/arcos/connect";
+import { ArcOSUserChangePassword } from "../../api/arcos/user/changepswd";
 import { ArcOSUserCreate } from "../../api/arcos/user/create";
 import { ArcOSUserDelete } from "../../api/arcos/user/delete";
 import { ArcOSUserProperties } from "../../api/arcos/user/properties";
@@ -91,6 +92,20 @@ export const ArcEval = new Map<string, Endpoint>([
       optionalParams: [],
       description: "Rename own account to new username",
       func: ArcOSUserRename,
+    },
+  ],
+  [
+    "/user/changepswd",
+    {
+      auth: true,
+      credAuth: true,
+      tokenAuth: false,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [{ key: "new", format: "base64" }],
+      optionalParams: [],
+      description: "Change your password",
+      func: ArcOSUserChangePassword,
     },
   ],
   [
