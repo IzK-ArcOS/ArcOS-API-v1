@@ -4,6 +4,7 @@ import { ArcOSUserCreate } from "../../api/arcos/user/create";
 import { ArcOSUserDelete } from "../../api/arcos/user/delete";
 import { ArcOSUserProperties } from "../../api/arcos/user/properties";
 import { ArcOSUserPropertiesUpdate } from "../../api/arcos/user/properties/update";
+import { ArcOSUserRename } from "../../api/arcos/user/rename";
 import { ArcOSUsersGet } from "../../api/arcos/users/get";
 import { Endpoint } from "./main";
 
@@ -76,6 +77,20 @@ export const ArcEval = new Map<string, Endpoint>([
       optionalParams: [],
       description: "Delete own account",
       func: ArcOSUserDelete,
+    },
+  ],
+  [
+    "/user/rename",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [{ key: "newUsername", format: "base64" }],
+      optionalParams: [],
+      description: "Rename own account to new username",
+      func: ArcOSUserRename,
     },
   ],
   [

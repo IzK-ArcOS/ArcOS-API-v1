@@ -1,7 +1,7 @@
 import url from "url";
 import { IncomingMessage, ServerResponse } from "http";
 import { Error, Ok } from "../../../../server/return";
-import { commitChanges, getDB } from "../../../../db/main";
+import { CommitOk, getDB } from "../../../../db/main";
 import { verifyTokenByReq } from "../../../../auth/token";
 
 export async function ArcOSUserPropertiesUpdate(
@@ -53,7 +53,7 @@ export async function ArcOSUserPropertiesUpdate(
 
     pdb[username] = newJson;
 
-    await commitChanges("update user properties", res, {
+    await CommitOk("update user properties", res, {
       db: "pref",
       data: pdb,
     });

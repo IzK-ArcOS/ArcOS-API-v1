@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { verifyTokenByReq } from "../../../auth/token";
-import { commitChanges, getDB } from "../../../db/main";
+import { CommitOk, getDB } from "../../../db/main";
 import { TokenDB } from "../../../tokens/interface";
 
 export async function ArcOSUserDelete(
@@ -24,7 +24,7 @@ export async function ArcOSUserDelete(
     if (tokenEntries[i][1] == username) delete tdb[tokenEntries[i][0]];
   }
 
-  commitChanges(
+  CommitOk(
     "delete user",
     res,
     { db: "cred", data: cdb },

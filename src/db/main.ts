@@ -65,7 +65,7 @@ export async function verifyDBs() {
   }
 }
 
-export async function commitChanges(
+export async function CommitOk(
   source: string,
   res: ServerResponse,
   ...writes: { db: string; data: any }[]
