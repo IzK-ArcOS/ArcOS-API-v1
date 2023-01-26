@@ -26,6 +26,7 @@ export interface UserPreferences {
 
     anim: boolean; //done
     noGlass: boolean; //done
+    noQuickSettings: boolean;
   };
 
   disabledApps: string[];
@@ -72,7 +73,7 @@ export const DefaultUserdata: UserPreferences = {
       small: true,
     },
     anim: true,
-
+    noQuickSettings: false,
     noGlass: false,
   },
   acc: {
