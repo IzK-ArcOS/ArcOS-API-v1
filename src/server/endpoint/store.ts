@@ -88,7 +88,7 @@ export const ArcEval = new Map<string, Endpoint>([
       tokenAuth: true,
       checkAuth: true,
       admin: false,
-      requiredParams: [{ key: "newUsername", format: "base64" }],
+      requiredParams: [{ key: "newname", format: "base64" }],
       optionalParams: [],
       description: "Rename own account to new username",
       func: ArcOSUserRename,
