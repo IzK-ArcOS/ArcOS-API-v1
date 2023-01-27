@@ -32,21 +32,17 @@ export async function ArcOSUserRename(
   const tokenEntries = Object.entries(tdb);
 
   for (let i = 0; i < tokenEntries.length; i++) {
-    if (tdb[i][1] == username) tdb[i][1] == newUsername;
+    if (tokenEntries[i][1] == username) tdb[tokenEntries[i][0]] = newUsername;
   }
 
   delete pdb[username];
   delete cdb[username];
 
-  Ok(
+  CommitOk(
+    "rename user",
     res,
-    createDataRes(
-      {
-        username,
-        newUsername,
-        userData: pdb[newUsername],
-      },
-      true
-    )
+    { db: "pref", data: pdb },
+    { db: "cred", data: cdb },
+    { db: "tokens", data: tdb }
   );
 }
