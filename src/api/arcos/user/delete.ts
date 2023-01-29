@@ -1,6 +1,8 @@
+import { rm } from "fs/promises";
 import { IncomingMessage, ServerResponse } from "http";
 import { verifyTokenByReq } from "../../../auth/token";
 import { CommitOk, getDB } from "../../../db/main";
+import { fsroot } from "../../../env/main";
 import { TokenDB } from "../../../tokens/interface";
 
 export async function ArcOSUserDelete(
@@ -22,6 +24,12 @@ export async function ArcOSUserDelete(
 
   for (let i = 0; i < tokenEntries.length; i++) {
     if (tokenEntries[i][1] == username) delete tdb[tokenEntries[i][0]];
+  }
+
+  try {
+    await rm(`${fsroot}/${username}`, { recursive: true, force: true });
+  } catch {
+    console.warn("User directory could not be deleted!");
   }
 
   CommitOk(

@@ -1,8 +1,10 @@
+import { rename } from "fs/promises";
 import { IncomingMessage, ServerResponse } from "http";
 import url from "url";
 import { verifyTokenByReq } from "../../../auth/token";
 import { userExists } from "../../../auth/user";
 import { CommitOk, getDB } from "../../../db/main";
+import { fsroot } from "../../../env/main";
 import { Error, Ok } from "../../../server/return";
 import { TokenDB } from "../../../tokens/interface";
 
@@ -37,6 +39,12 @@ export async function ArcOSUserRename(
 
   delete pdb[username];
   delete cdb[username];
+
+  try {
+    await rename(`${fsroot}/${username}`, `${fsroot}/${newUsername}`);
+  } catch {
+    console.warn("User directory could not be renamed!");
+  }
 
   CommitOk(
     "rename user",

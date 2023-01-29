@@ -1,6 +1,8 @@
+import { mkdir } from "fs/promises";
 import { IncomingMessage, ServerResponse } from "http";
 import { getAuth } from "../../../auth/get";
 import { createUser } from "../../../auth/user";
+import { fsroot } from "../../../env/main";
 import { Error, Ok } from "../../../server/return";
 
 export async function ArcOSUserCreate(
@@ -28,14 +30,22 @@ export async function ArcOSUserCreate(
       ),
       codes[createStatus]
     );
-  } else {
-    Ok(
-      res,
-      Error(
-        "User created",
-        "User created successfully. Use '/auth' to generate a token for the account.",
-        true
-      )
-    );
+
+    return;
   }
+
+  try {
+    await mkdir(`${fsroot}/${username}`, { recursive: true });
+  } catch {
+    console.warn("User directory could not be created, it may already exist.");
+  }
+
+  Ok(
+    res,
+    Error(
+      "User created",
+      "User created successfully. Use '/auth' to generate a token for the account.",
+      true
+    )
+  );
 }
