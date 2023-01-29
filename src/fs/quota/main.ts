@@ -4,7 +4,7 @@ import { readdir, stat } from "fs/promises";
 import { getUserDirectory } from "../dirs/get";
 import { join } from "path";
 
-export const MAX_QUOTA = 200 * 1024 * 1024;
+export const MAX_QUOTA = 2 * 1024 * 1024 * 1024;
 
 export async function getFreeSpace(username: string) {
   if (!(await userExists(username))) return 0;
