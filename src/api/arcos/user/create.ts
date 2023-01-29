@@ -20,14 +20,13 @@ export async function ArcOSUserCreate(
       userexists: 409,
     };
 
-    res.statusCode = codes[createStatus];
-
     Ok(
       res,
       Error(
         "User not created",
         `Error code returned by user creator: ${createStatus.toUpperCase()}`
-      )
+      ),
+      codes[createStatus]
     );
   } else {
     Ok(

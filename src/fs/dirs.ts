@@ -2,7 +2,7 @@ import { mkdir } from "fs/promises";
 import path from "path";
 import { getDB } from "../db/main";
 import { fsroot } from "../env/main";
-import { userPathExists } from "./path";
+import { joinPath, userPathExists } from "./path";
 
 export async function verifyUserDirectories() {
   console.log(
@@ -24,7 +24,7 @@ export async function verifyUserDirectories() {
     );
 
     try {
-      mkdir(path.join(fsroot, users[i]));
+      mkdir(joinPath(fsroot, users[i]));
     } catch (e) {
       console.log(
         `VerifyUserDirectories: Couldn't create user directory for ${users[i]}: ${e}`

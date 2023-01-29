@@ -26,28 +26,26 @@ export async function ArcOSUserPropertiesUpdate(
     try {
       newJson = JSON.parse(data);
     } catch {
-      res.statusCode = 400;
-
       return Ok(
         res,
         Error(
           "Can't update user properties",
           "Parameter 'data' could not be parsed as JSON."
-        )
+        ),
+        400
       );
     }
 
     const pdb = await getDB("pref");
 
     if (!pdb) {
-      res.statusCode = 500;
-
       return Ok(
         res,
         Error(
           "Can't update user properties",
           "A database error occured. Please try again later."
-        )
+        ),
+        500
       );
     }
 

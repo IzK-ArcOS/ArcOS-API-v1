@@ -1,5 +1,6 @@
 import { ArcOSAuth } from "../../api/arcos/auth";
 import { ArcOSConnect } from "../../api/arcos/connect";
+import { ArcOSFSDirCreate } from "../../api/arcos/fs/dir/create";
 import { ArcOSFSDirGet } from "../../api/arcos/fs/dir/get";
 import { ArcOSUserChangePassword } from "../../api/arcos/user/changepswd";
 import { ArcOSUserCreate } from "../../api/arcos/user/create";
@@ -149,6 +150,20 @@ export const ArcEval = new Map<string, Endpoint>([
       optionalParams: [{ key: "path", format: "base64" }],
       description: "Get the contents of a directory",
       func: ArcOSFSDirGet,
+    },
+  ],
+  [
+    "/fs/dir/create",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [{ key: "path", format: "base64" }],
+      optionalParams: [],
+      description: "Create a directory",
+      func: ArcOSFSDirCreate,
     },
   ],
 ]);

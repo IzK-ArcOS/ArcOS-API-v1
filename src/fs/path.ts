@@ -4,10 +4,14 @@ import path from "path";
 import { fsroot } from "../env/main";
 import { existsSync } from "fs";
 
-export async function getUserPath(username: string, ...scopedPaths: string[]) {
-  if (!(await userExists(username))) return false;
+export function joinPath(...items: string[]) {
+  return path.posix.join(...items);
+}
 
-  return path.join(fsroot, username, ...scopedPaths);
+export async function getUserPath(username: string, ...scopedPaths: string[]) {
+  if (!(await userExists(username)) || scopedPaths.includes("..")) return false;
+
+  return joinPath(fsroot, username, ...scopedPaths);
 }
 
 export async function userPathExists(

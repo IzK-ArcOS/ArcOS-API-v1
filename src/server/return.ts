@@ -1,5 +1,7 @@
 import { ServerResponse } from "http";
 
+export type ErrorMessage = { title: string; message: string };
+
 export function Error(title: string, message: string, valid: boolean = false) {
   return JSON.stringify({
     error: { title, message },
@@ -7,11 +9,7 @@ export function Error(title: string, message: string, valid: boolean = false) {
   });
 }
 
-export function DataRes(
-  data: any,
-  valid: boolean,
-  error?: { title: string; message: string }
-) {
+export function DataRes(data: any, valid: boolean, error?: ErrorMessage) {
   return JSON.stringify({
     valid,
     data,
@@ -22,8 +20,10 @@ export function DataRes(
   });
 }
 
-export function Ok(res: ServerResponse, data: string) {
+export function Ok(res: ServerResponse, data: string, statusCode?: number) {
   try {
+    res.statusCode = statusCode || 200;
+
     if (!res.destroyed) {
       res.write(data);
     }

@@ -17,10 +17,10 @@ export async function ArcOSAuth(req: IncomingMessage, res: ServerResponse) {
   const valid = await setDB("tokens", tdb);
 
   if (!valid) {
-    res.statusCode = 500;
     return Ok(
       res,
-      Error("Could not generate token", "The database could not be written.")
+      Error("Could not generate token", "The database could not be written."),
+      500
     );
   }
 

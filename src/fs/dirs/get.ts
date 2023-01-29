@@ -1,13 +1,18 @@
 import { readdir, stat } from "fs/promises";
-import { getUserPath, userPathExists } from "./path";
+import { getUserPath, joinPath, userPathExists } from "../path";
 import path, { dirname } from "path";
-import { PartialUserDir, UserDirectory, UserFile } from "./interface";
+import { PartialUserDir, UserDirectory, UserFile } from "../interface";
 import mime from "mime-types";
 
 export async function getUserDirectory(username: string, scopedPath: string) {
   let dirPath = await getUserPath(username, scopedPath);
 
-  if (!dirPath || !userPathExists(username, scopedPath)) return false;
+  if (
+    !dirPath ||
+    scopedPath.includes("..") ||
+    !(await userPathExists(username, scopedPath))
+  )
+    return false;
 
   const contents = await readdir(dirPath, { encoding: "utf-8" });
 
@@ -16,8 +21,8 @@ export async function getUserDirectory(username: string, scopedPath: string) {
 
   for (let i = 0; i < contents.length; i++) {
     const item = contents[i];
-    const itemPath = path.join(dirPath, item);
-    const scopedItemPath = path.join(scopedPath, item);
+    const itemPath = joinPath(dirPath, item);
+    const scopedItemPath = joinPath(scopedPath, item);
 
     if (!userPathExists(username, scopedPath, item)) continue;
 
@@ -42,11 +47,15 @@ export async function getUserDirectory(username: string, scopedPath: string) {
       });
   }
 
+  const fullPathSplit = dirPath.split("/");
+
+  const name = fullPathSplit[fullPathSplit.length - 1];
+
   const dir: UserDirectory = {
     files,
     directories: dirs,
-    name: dirname(dirPath),
-    scopedPath,
+    name,
+    scopedPath: scopedPath,
   };
 
   return dir;

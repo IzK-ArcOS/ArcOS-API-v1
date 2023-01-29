@@ -55,15 +55,14 @@ export async function serverListener(
   }
 
   if (typeof req.url !== "string") {
-    res.statusCode = 400;
-
     Ok(
       res,
       Error(
         "Request cancelled",
         "Cannot process a request that doesn't contain a valid URL.",
         false
-      )
+      ),
+      400
     );
 
     return;
@@ -92,53 +91,49 @@ export async function serverListener(
     );
 
     if (await isDisabled(username)) {
-      res.statusCode = 401;
-
       Ok(
         res,
-        Error("Disabled", "Your account is disabled and cannot be used.")
+        Error("Disabled", "Your account is disabled and cannot be used."),
+        401
       );
 
       return;
     }
 
     if ((!username || !password) && !endpoint.tokenAuth && endpoint.auth) {
-      res.statusCode = 400;
-
       Ok(
         res,
         Error(
           "Unauthorized",
           "This endpoint requires authentication, which wasn't provided."
-        )
+        ),
+        400
       );
 
       return;
     }
 
     if (!correctBasic && !endpoint.tokenAuth && endpoint.auth) {
-      res.statusCode = 401;
-
       Ok(
         res,
         Error(
           "Access denied",
           "Cannot access entrypoint: invalid credentials specified!"
-        )
+        ),
+        401
       );
 
       return;
     }
 
     if (!correctToken && endpoint.tokenAuth && endpoint.auth) {
-      res.statusCode = 401;
-
       Ok(
         res,
         Error(
           "Access denied",
           "Cannot access entrypoint: invalid token specified!"
-        )
+        ),
+        401
       );
 
       return;
@@ -150,29 +145,27 @@ export async function serverListener(
       try {
         evaluator.get(pathName)?.func(req, res);
       } catch {
-        res.statusCode = 500;
-
         Ok(
           res,
           Error(
             "Server error",
             "The endpoint failed to execute because of an unhandled exception.",
             false
-          )
+          ),
+          500
         );
       }
 
       return;
     }
 
-    res.statusCode = 400;
-
     Ok(
       res,
       Error(
         "Bad request",
         "This endpoint requires some parameters that weren't provided."
-      )
+      ),
+      400
     );
   } else {
     console.log(
@@ -181,9 +174,12 @@ export async function serverListener(
         " "
       )} | Invalid: YES`
     );
-    res.statusCode = 404;
 
-    Ok(res, Error("Not found", "The specified API path could not be found."));
+    Ok(
+      res,
+      Error("Not found", "The specified API path could not be found."),
+      404
+    );
   }
 
   res.end();

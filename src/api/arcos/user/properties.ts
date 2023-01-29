@@ -10,8 +10,11 @@ export async function ArcOSUserProperties(
   const username = await verifyTokenByReq(req);
 
   if (!username) {
-    res.statusCode = 401;
-    return Ok(res, Error("Can't get properties", "User could not be found."));
+    return Ok(
+      res,
+      Error("Can't get properties", "User could not be found."),
+      401
+    );
   }
 
   console.log(username);
@@ -19,14 +22,13 @@ export async function ArcOSUserProperties(
   const pdb = await getDB("pref");
 
   if (!pdb) {
-    res.statusCode = 500;
-
     return Ok(
       res,
       Error(
         "Can't get properties",
         "A database error occured. Please try again later."
-      )
+      ),
+      500
     );
   }
 
