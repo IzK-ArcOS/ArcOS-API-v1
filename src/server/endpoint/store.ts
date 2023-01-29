@@ -2,6 +2,12 @@ import { ArcOSAuth } from "../../api/arcos/auth";
 import { ArcOSConnect } from "../../api/arcos/connect";
 import { ArcOSFSDirCreate } from "../../api/arcos/fs/dir/create";
 import { ArcOSFSDirGet } from "../../api/arcos/fs/dir/get";
+import { ArcOSFSFileGet } from "../../api/arcos/fs/file/get";
+import { ArcOSFSFileWrite } from "../../api/arcos/fs/file/write";
+import { ArcOSFSItemCopy } from "../../api/arcos/fs/item/copy";
+import { ArcOSFSItemDelete } from "../../api/arcos/fs/item/delete";
+import { ArcOSFSItemRename } from "../../api/arcos/fs/item/rename";
+import { ArcOSFSQuota } from "../../api/arcos/fs/quota";
 import { ArcOSUserChangePassword } from "../../api/arcos/user/changepswd";
 import { ArcOSUserCreate } from "../../api/arcos/user/create";
 import { ArcOSUserDelete } from "../../api/arcos/user/delete";
@@ -139,6 +145,20 @@ export const ArcEval = new Map<string, Endpoint>([
     },
   ],
   [
+    "/fs/quota",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [],
+      optionalParams: [],
+      description: "Query account filesystem size",
+      func: ArcOSFSQuota,
+    },
+  ],
+  [
     "/fs/dir/get",
     {
       auth: true,
@@ -164,6 +184,82 @@ export const ArcEval = new Map<string, Endpoint>([
       optionalParams: [],
       description: "Create a directory",
       func: ArcOSFSDirCreate,
+    },
+  ],
+  [
+    "/fs/file/get",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [{ key: "path", format: "base64" }],
+      optionalParams: [],
+      description: "Get a file",
+      func: ArcOSFSFileGet,
+    },
+  ],
+  [
+    "/fs/file/write",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [{ key: "path", format: "base64" }],
+      optionalParams: [],
+      description: "Write a file",
+      func: ArcOSFSFileWrite,
+    },
+  ],
+  [
+    "/fs/rm",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [{ key: "path", format: "base64" }],
+      optionalParams: [],
+      description: "Delete an item",
+      func: ArcOSFSItemDelete,
+    },
+  ],
+  [
+    "/fs/rename",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [
+        { key: "oldpath", format: "base64" },
+        { key: "newpath", format: "base64" },
+      ],
+      optionalParams: [],
+      description: "Rename an item",
+      func: ArcOSFSItemRename,
+    },
+  ],
+  [
+    "/fs/cp",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [
+        { key: "path", format: "base64" },
+        { key: "target", format: "base64" },
+      ],
+      optionalParams: [],
+      description: "Copy an item",
+      func: ArcOSFSItemCopy,
     },
   ],
 ]);

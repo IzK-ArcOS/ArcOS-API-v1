@@ -10,6 +10,7 @@
     "start": "npx tsc && node dist/main.js"
   },
   "dependencies": {
+    "@types/get-folder-size": "^3.0.1",
     "@types/mime-types": "^2.1.1",
     "@types/node": "^18.0.0",
     "@types/typescript": "^2.0.0",

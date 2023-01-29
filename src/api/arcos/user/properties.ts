@@ -17,8 +17,6 @@ export async function ArcOSUserProperties(
     );
   }
 
-  console.log(username);
-
   const pdb = await getDB("pref");
 
   if (!pdb) {

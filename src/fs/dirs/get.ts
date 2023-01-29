@@ -5,7 +5,7 @@ import { PartialUserDir, UserDirectory, UserFile } from "../interface";
 import mime from "mime-types";
 
 export async function getUserDirectory(username: string, scopedPath: string) {
-  let dirPath = await getUserPath(username, scopedPath);
+  let dirPath = await getUserPath(username, false, scopedPath);
 
   if (
     !dirPath ||
@@ -24,7 +24,7 @@ export async function getUserDirectory(username: string, scopedPath: string) {
     const itemPath = joinPath(dirPath, item);
     const scopedItemPath = joinPath(scopedPath, item);
 
-    if (!userPathExists(username, scopedPath, item)) continue;
+    if (!(await userPathExists(username, scopedPath, item))) continue;
 
     const fileStat = await stat(itemPath);
 

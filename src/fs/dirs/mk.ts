@@ -5,7 +5,7 @@ export async function createUserDirectory(
   username: string,
   scopedPath: string
 ) {
-  let dirPath = await getUserPath(username, scopedPath);
+  let dirPath = await getUserPath(username, true, scopedPath);
 
   if (!dirPath || (await userPathExists(username, scopedPath))) return false;
 
