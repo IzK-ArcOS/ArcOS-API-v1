@@ -17,8 +17,8 @@ Follow these steps to build and run the ArcOS API. Do note that this API runs on
   # Change to the API directory
   $ cd ArcOS-API-v1
   
-  # Create the database directory
-  $ mkdir db
+  # Create the database and filesystem directories
+  $ mkdir {db,fs}
   
   # Satisfy NPM dependencies
   $ npm i
