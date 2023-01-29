@@ -1,9 +1,9 @@
+import { rm } from "fs/promises";
 import { IncomingMessage, ServerResponse } from "http";
+import url from "url";
 import { verifyTokenByReq } from "../../../../auth/token";
 import { getUserPath, userPathExists } from "../../../../fs/path";
-import { Ok, Error } from "../../../../server/return";
-import url from "url";
-import { rm, rmdir, stat } from "fs/promises";
+import { Error, Ok } from "../../../../server/return";
 
 export async function ArcOSFSItemDelete(
   req: IncomingMessage,

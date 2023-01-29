@@ -1,8 +1,7 @@
-import url from "url";
 import { IncomingMessage, ServerResponse } from "http";
-import { Error, Ok } from "../../../../server/return";
-import { CommitOk, getDB } from "../../../../db/main";
 import { verifyTokenByReq } from "../../../../auth/token";
+import { CommitOk, getDB } from "../../../../db/main";
+import { Error, Ok } from "../../../../server/return";
 
 export async function ArcOSUserPropertiesUpdate(
   req: IncomingMessage,

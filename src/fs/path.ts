@@ -1,8 +1,8 @@
 import { userExists } from "../auth/user";
 
+import { existsSync } from "fs";
 import path from "path";
 import { fsroot } from "../env/main";
-import { existsSync } from "fs";
 
 export function joinPath(...items: string[]) {
   return path.posix.join(...items);

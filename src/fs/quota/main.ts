@@ -1,8 +1,7 @@
-import { userExists } from "../../auth/user";
-import { getUserPath, joinPath } from "../path";
 import { readdir, stat } from "fs/promises";
-import { getUserDirectory } from "../dirs/get";
 import { join } from "path";
+import { userExists } from "../../auth/user";
+import { getUserPath } from "../path";
 
 export const MAX_QUOTA = 2 * 1024 * 1024 * 1024;
 

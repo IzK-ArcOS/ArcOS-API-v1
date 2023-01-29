@@ -1,8 +1,7 @@
 import { readdir, stat } from "fs/promises";
-import { getUserPath, joinPath, userPathExists } from "../path";
-import path, { dirname } from "path";
-import { PartialUserDir, UserDirectory, UserFile } from "../interface";
 import mime from "mime-types";
+import { PartialUserDir, UserDirectory, UserFile } from "../interface";
+import { getUserPath, joinPath, userPathExists } from "../path";
 
 export async function getUserDirectory(username: string, scopedPath: string) {
   let dirPath = await getUserPath(username, false, scopedPath);

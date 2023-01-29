@@ -3,7 +3,7 @@ import url from "url";
 import { verifyTokenByReq } from "../../../auth/token";
 import { userExists } from "../../../auth/user";
 import { CommitOk, getDB } from "../../../db/main";
-import { DataRes, Error, Ok } from "../../../server/return";
+import { Error, Ok } from "../../../server/return";
 import { TokenDB } from "../../../tokens/interface";
 
 export async function ArcOSUserRename(

@@ -1,9 +1,8 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { getAuth } from "../../../../auth/get";
 import url from "url";
 import { verifyTokenByReq } from "../../../../auth/token";
-import { DataRes, Error, Ok } from "../../../../server/return";
 import { getUserDirectory } from "../../../../fs/dirs/get";
+import { DataRes, Error, Ok } from "../../../../server/return";
 
 export async function ArcOSFSDirGet(req: IncomingMessage, res: ServerResponse) {
   const username = await verifyTokenByReq(req);

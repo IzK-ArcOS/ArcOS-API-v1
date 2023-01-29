@@ -1,11 +1,10 @@
-import { IncomingMessage, ServerResponse } from "http";
-import { verifyTokenByReq } from "../../../../auth/token";
-import { Ok, Error } from "../../../../server/return";
-import url from "url";
-import { getUserDirectory } from "../../../../fs/dirs/get";
-import { getUserPath, userPathExists } from "../../../../fs/path";
-import mime from "mime-types";
 import { readFile } from "fs/promises";
+import { IncomingMessage, ServerResponse } from "http";
+import mime from "mime-types";
+import url from "url";
+import { verifyTokenByReq } from "../../../../auth/token";
+import { getUserPath, userPathExists } from "../../../../fs/path";
+import { Error, Ok } from "../../../../server/return";
 export async function ArcOSFSFileGet(
   req: IncomingMessage,
   res: ServerResponse

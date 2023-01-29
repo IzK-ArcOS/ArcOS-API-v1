@@ -1,5 +1,4 @@
 import { mkdir } from "fs/promises";
-import path from "path";
 import { getDB } from "../db/main";
 import { fsroot } from "../env/main";
 import { joinPath, userPathExists } from "./path";

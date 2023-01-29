@@ -1,15 +1,14 @@
+import http, { IncomingMessage, ServerResponse } from "http";
 import url from "url";
-import path from "path";
-import http, { IncomingMessage, RequestListener, ServerResponse } from "http";
+import { getAuth } from "../auth/get";
+import { verifyCredentials } from "../auth/main";
+import { isAdmin, isDisabled } from "../auth/role";
+import { verifyToken } from "../auth/token";
+import { verifyDBs } from "../db/main";
+import { verifyUserDirectories } from "../fs/dirs";
+import { checkParams } from "./checkparams";
 import { Endpoint } from "./endpoint/main";
 import { Error, Ok } from "./return";
-import { verifyDBs } from "../db/main";
-import { checkParams } from "./checkparams";
-import { getAuth } from "../auth/get";
-import { isAdmin, isDisabled } from "../auth/role";
-import { verifyCredentials } from "../auth/main";
-import { verifyToken } from "../auth/token";
-import { verifyUserDirectories } from "../fs/dirs";
 
 export function makeServer(
   port: number,

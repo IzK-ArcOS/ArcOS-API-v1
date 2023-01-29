@@ -1,8 +1,8 @@
-import { IncomingMessage, ServerResponse } from "http";
-import { getAuth } from "../../../auth/get";
-import url from "url";
-import { CommitOk, getDB } from "../../../db/main";
 import argon2 from "argon2";
+import { IncomingMessage, ServerResponse } from "http";
+import url from "url";
+import { getAuth } from "../../../auth/get";
+import { CommitOk, getDB } from "../../../db/main";
 
 export async function ArcOSUserChangePassword(
   req: IncomingMessage,

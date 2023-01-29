@@ -1,7 +1,7 @@
-import { DB, dbRoot, DBs } from "../env/main";
-import { readFile, rm, stat, writeFile } from "fs/promises";
 import { existsSync } from "fs";
-import { IncomingMessage, ServerResponse } from "http";
+import { readFile, writeFile } from "fs/promises";
+import { ServerResponse } from "http";
+import { DB, DBs } from "../env/main";
 import { Error, Ok } from "../server/return";
 
 export async function getDB(

@@ -1,9 +1,9 @@
+import { randomUUID } from "crypto";
 import { IncomingMessage, ServerResponse } from "http";
 import { getAuth } from "../../auth/get";
-import { randomUUID } from "crypto";
 import { getDB, setDB } from "../../db/main";
-import { TokenDB } from "../../tokens/interface";
 import { DataRes, Error, Ok } from "../../server/return";
+import { TokenDB } from "../../tokens/interface";
 
 export async function ArcOSAuth(req: IncomingMessage, res: ServerResponse) {
   const { username } = getAuth(req);

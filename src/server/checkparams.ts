@@ -1,6 +1,6 @@
 import { IncomingMessage } from "http";
-import { Endpoint } from "./endpoint/main";
 import url from "url";
+import { Endpoint } from "./endpoint/main";
 
 export function checkParams(endpoint: Endpoint, req: IncomingMessage) {
   if (typeof req.url !== "string") {
