@@ -9,6 +9,7 @@ import { getAuth } from "../auth/get";
 import { isAdmin, isDisabled } from "../auth/role";
 import { verifyCredentials } from "../auth/main";
 import { verifyToken } from "../auth/token";
+import { verifyUserDirectories } from "../fs/dirs";
 
 export function makeServer(
   port: number,
@@ -16,6 +17,7 @@ export function makeServer(
   evaluator: Map<string, Endpoint>
 ) {
   verifyDBs();
+  verifyUserDirectories();
 
   console.log(`Creating HTTP server ${name} on localhost:${port}`);
 

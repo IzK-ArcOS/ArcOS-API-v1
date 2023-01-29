@@ -1,5 +1,6 @@
 import { ArcOSAuth } from "../../api/arcos/auth";
 import { ArcOSConnect } from "../../api/arcos/connect";
+import { ArcOSFSDirGet } from "../../api/arcos/fs/dir/get";
 import { ArcOSUserChangePassword } from "../../api/arcos/user/changepswd";
 import { ArcOSUserCreate } from "../../api/arcos/user/create";
 import { ArcOSUserDelete } from "../../api/arcos/user/delete";
@@ -134,6 +135,20 @@ export const ArcEval = new Map<string, Endpoint>([
       optionalParams: [],
       description: "Get a public list of users for the login screen",
       func: ArcOSUsersGet,
+    },
+  ],
+  [
+    "/fs/dir/get",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [],
+      optionalParams: [{ key: "path", format: "base64" }],
+      description: "Get the contents of a directory",
+      func: ArcOSFSDirGet,
     },
   ],
 ]);

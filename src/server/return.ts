@@ -7,7 +7,7 @@ export function Error(title: string, message: string, valid: boolean = false) {
   });
 }
 
-export function createDataRes(
+export function DataRes(
   data: any,
   valid: boolean,
   error?: { title: string; message: string }

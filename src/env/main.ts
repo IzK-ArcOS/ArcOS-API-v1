@@ -22,6 +22,7 @@ export const DBs = new Map<string, DB>([
     },
   ],
 ]);
+export const fsroot = "./fs";
 
 export interface DB {
   name: string;

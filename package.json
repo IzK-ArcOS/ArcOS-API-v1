@@ -10,10 +10,12 @@
     "start": "npx tsc && node dist/main.js"
   },
   "dependencies": {
+    "@types/mime-types": "^2.1.1",
     "@types/node": "^18.0.0",
     "@types/typescript": "^2.0.0",
     "argon2": "^0.28.5",
     "cors": "^2.8.5",
+    "mime-types": "^2.1.35",
     "url": "^0.11.0"
   }
 }

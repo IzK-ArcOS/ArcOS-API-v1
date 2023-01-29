@@ -3,7 +3,7 @@ import { getAuth } from "../../auth/get";
 import { randomUUID } from "crypto";
 import { getDB, setDB } from "../../db/main";
 import { TokenDB } from "../../tokens/interface";
-import { createDataRes, Error, Ok } from "../../server/return";
+import { DataRes, Error, Ok } from "../../server/return";
 
 export async function ArcOSAuth(req: IncomingMessage, res: ServerResponse) {
   const { username } = getAuth(req);
@@ -26,7 +26,7 @@ export async function ArcOSAuth(req: IncomingMessage, res: ServerResponse) {
 
   Ok(
     res,
-    createDataRes(
+    DataRes(
       {
         username,
         token: uuid,
