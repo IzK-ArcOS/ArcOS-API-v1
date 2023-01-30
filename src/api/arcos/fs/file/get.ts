@@ -40,7 +40,7 @@ export async function ArcOSFSFileGet(
     try {
       const contents = await readFile(filePath);
 
-      const mimeType = mime.contentType(pathParam);
+      const mimeType = mime.lookup(pathParam);
 
       if (!mimeType)
         return Ok(
