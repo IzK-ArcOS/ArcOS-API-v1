@@ -42,16 +42,7 @@ export async function ArcOSFSFileGet(
 
       const mimeType = mime.lookup(pathParam);
 
-      if (!mimeType)
-        return Ok(
-          res,
-          Error(
-            "Unable to get file",
-            "The server could not determine the mime type of the file."
-          )
-        );
-
-      res.setHeader("content-type", mimeType);
+      res.setHeader("content-type", mimeType || "text/plain");
       res.statusCode = 200;
       res.write(contents);
       res.end();
