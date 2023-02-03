@@ -10,13 +10,15 @@ export async function ArcOSFSFileWrite(
   req: IncomingMessage,
   res: ServerResponse
 ) {
-  const chunks: Buffer[] = [];
+  const body: any[] = [];
 
   req.on("data", (chunk) => {
-    chunks.push(chunk);
+    body.push(chunk);
   });
 
   req.on("end", async () => {
+    const b = Buffer.concat(body).buffer as ArrayBuffer;
+
     console.log("all parts/chunks have arrived");
 
     const username = (await verifyTokenByReq(req)) || "";
@@ -48,7 +50,7 @@ export async function ArcOSFSFileWrite(
         400
       );
 
-    const size = chunks.toString().length;
+    const size = b.byteLength;
 
     const spaceSufficient = await checkSpaceRequirement(username, size);
 
@@ -63,7 +65,7 @@ export async function ArcOSFSFileWrite(
       );
 
     try {
-      await writeFile(filePath as string, chunks, { encoding: "utf-8" });
+      await writeFile(filePath as string, Buffer.from(b));
 
       return Ok(res, "", 200);
     } catch {
