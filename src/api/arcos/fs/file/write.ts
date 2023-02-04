@@ -17,7 +17,9 @@ export async function ArcOSFSFileWrite(
   });
 
   req.on("end", async () => {
-    const b = Buffer.concat(body).buffer as ArrayBuffer;
+    const b = Buffer.concat(body);
+
+    console.log(body, b);
 
     console.log("all parts/chunks have arrived");
 
@@ -65,7 +67,7 @@ export async function ArcOSFSFileWrite(
       );
 
     try {
-      await writeFile(filePath as string, Buffer.from(b));
+      await writeFile(filePath as string, b);
 
       return Ok(res, "", 200);
     } catch {
