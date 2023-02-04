@@ -1,4 +1,4 @@
-import { rm } from "fs/promises";
+import { rm, unlink } from "fs/promises";
 import { IncomingMessage, ServerResponse } from "http";
 import url from "url";
 import { verifyTokenByReq } from "../../../../auth/token";
@@ -37,8 +37,20 @@ export async function ArcOSFSItemDelete(
         404
       );
 
-    rm(filePath, { recursive: true, force: true });
-    Ok(res, "", 200);
+    try {
+      await unlink(filePath);
+      Ok(res, "", 200);
+    } catch {
+      Ok(
+        res,
+        Error(
+          "Unable to delete item",
+          "A filesystem error occured while trying to delete the item.",
+          false
+        ),
+        500
+      );
+    }
   } catch {
     Ok(
       res,

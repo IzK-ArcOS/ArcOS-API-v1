@@ -53,16 +53,20 @@ export async function getTotalFileSize(path: string) {
   const contents = await readdir(path, { encoding: "utf-8" });
 
   for (let i = 0; i < contents.length; i++) {
-    const item = contents[i];
-    const itemPath = join(path, item);
-    const itemStat = await stat(itemPath);
+    try {
+      const item = contents[i];
+      const itemPath = join(path, item);
+      const itemStat = await stat(itemPath);
 
-    if (itemStat.isDirectory()) {
-      total += await getTotalFileSize(itemPath);
+      if (itemStat.isDirectory()) {
+        total += await getTotalFileSize(itemPath);
+        continue;
+      }
+
+      total += itemStat.size;
+    } catch {
       continue;
     }
-
-    total += itemStat.size;
   }
 
   return total;
