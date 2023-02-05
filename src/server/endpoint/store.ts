@@ -8,6 +8,11 @@ import { ArcOSFSItemCopy } from "../../api/arcos/fs/item/copy";
 import { ArcOSFSItemDelete } from "../../api/arcos/fs/item/delete";
 import { ArcOSFSItemRename } from "../../api/arcos/fs/item/rename";
 import { ArcOSFSQuota } from "../../api/arcos/fs/quota";
+import { ArcOSMessagesDelete } from "../../api/arcos/messaging/delete";
+import { ArcOSMessagesGet } from "../../api/arcos/messaging/get";
+import { ArcOSMessagesList } from "../../api/arcos/messaging/list";
+import { ArcOSMessagesReply } from "../../api/arcos/messaging/reply";
+import { ArcOSMessagesSend } from "../../api/arcos/messaging/send";
 import { ArcOSUserChangePassword } from "../../api/arcos/user/changepswd";
 import { ArcOSUserCreate } from "../../api/arcos/user/create";
 import { ArcOSUserDelete } from "../../api/arcos/user/delete";
@@ -260,6 +265,79 @@ export const ArcEval = new Map<string, Endpoint>([
       optionalParams: [],
       description: "Copy an item",
       func: ArcOSFSItemCopy,
+    },
+  ],
+  [
+    "/messages/list",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [],
+      optionalParams: [],
+      description: "Get a list of messages",
+      func: ArcOSMessagesList,
+    },
+  ],
+  [
+    "/messages/get",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [],
+      optionalParams: [],
+      description: "Get a message",
+      func: ArcOSMessagesGet,
+    },
+  ],
+  [
+    "/messages/send",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [{ key: "target", format: "base64" }],
+      optionalParams: [],
+      description: "Send a message",
+      func: ArcOSMessagesSend,
+    },
+  ],
+  [
+    "/messages/reply",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [
+        { key: "target", format: "base64" },
+        { key: "id", format: "string" },
+      ],
+      optionalParams: [],
+      description: "Reply to a message",
+      func: ArcOSMessagesReply,
+    },
+  ],
+  [
+    "/messages/delete",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [{ key: "id", format: "string" }],
+      optionalParams: [],
+      description: "Delete a message",
+      func: ArcOSMessagesDelete,
     },
   ],
 ]);

@@ -21,6 +21,13 @@ export const DBs = new Map<string, DB>([
       path: `${dbRoot}/tokens.json`,
     },
   ],
+  [
+    "msg",
+    {
+      name: "Messaging",
+      path: `${dbRoot}/msg.json`,
+    },
+  ],
 ]);
 export const fsroot = "./fs";
 
