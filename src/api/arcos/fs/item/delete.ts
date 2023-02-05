@@ -38,7 +38,7 @@ export async function ArcOSFSItemDelete(
       );
 
     try {
-      await unlink(filePath);
+      await rm(filePath, { recursive: true, force: true });
       Ok(res, "", 200);
     } catch {
       Ok(
