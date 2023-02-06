@@ -4,6 +4,8 @@ import { Message, MsgDB, PartialMessage } from "./interface";
 export async function getAllMessages(
   username: string
 ): Promise<PartialMessage[]> {
+  console.log(username);
+
   const db = (await getDB("msg")) as MsgDB;
 
   const entries = Object.entries(db);
