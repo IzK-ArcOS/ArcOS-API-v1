@@ -8,6 +8,7 @@ export interface Message {
   replyingTo?: string;
   timestamp: number;
   id?: string;
+  read: boolean;
 }
 
 export interface PartialMessage {
@@ -17,4 +18,5 @@ export interface PartialMessage {
   timestamp: number;
   replyingTo?: string;
   id?: string;
+  read: boolean;
 }

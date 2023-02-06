@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { parse } from "url";
 import { verifyTokenByReq } from "../../../auth/token";
-import { getMessage, sendMessage } from "../../../messaging/main";
+import { getMessage, markAsRead, sendMessage } from "../../../messaging/main";
 import { DataRes, Error, Ok } from "../../../server/return";
 
 export async function ArcOSMessagesGet(
@@ -16,6 +16,8 @@ export async function ArcOSMessagesGet(
   if (!id) return Ok(res, Error("Can't get message", "The ID is invalid"), 400);
 
   const message = await getMessage(username, id);
+
+  await markAsRead(id);
 
   if (!message)
     return Ok(

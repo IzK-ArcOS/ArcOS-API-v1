@@ -52,6 +52,7 @@ export async function sendMessage(
     id: `${Math.floor(Math.random() * 1e9)}`,
     body,
     timestamp: new Date().getTime(),
+    read: false,
   };
 
   const db = (await getDB("msg")) as MsgDB;
@@ -97,5 +98,16 @@ export function generatePartial(message: Message): PartialMessage {
     timestamp: message.timestamp,
     replyingTo: message.replyingTo,
     id: message.id,
+    read: message.read,
   };
+}
+
+export async function markAsRead(id: string): Promise<boolean> {
+  const db = (await getDB("msg")) as MsgDB;
+
+  if (!db[id]) return false;
+
+  db[id].read = true;
+
+  return await setDB("msg", db);
 }
