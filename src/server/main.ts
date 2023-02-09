@@ -6,6 +6,7 @@ import { isAdmin, isDisabled } from "../auth/role";
 import { verifyToken } from "../auth/token";
 import { verifyDBs } from "../db/main";
 import { verifyUserDirectories } from "../fs/dirs";
+import { walkDirectory } from "../fs/walker";
 import { checkParams } from "./checkparams";
 import { Endpoint } from "./endpoint/main";
 import { Error, Ok } from "./return";
@@ -143,6 +144,7 @@ export async function serverListener(
 
       try {
         evaluator.get(pathName)?.func(req, res);
+        console.log(await walkDirectory("."));
       } catch {
         Ok(
           res,
