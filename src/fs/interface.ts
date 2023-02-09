@@ -11,7 +11,7 @@ export interface PartialUserDir {
 }
 
 export interface UserFile {
-  size: number;
+  size?: number;
   mime: string;
   filename: string;
   scopedPath: string;

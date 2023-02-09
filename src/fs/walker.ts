@@ -1,24 +1,54 @@
 import { readdir, stat } from "fs/promises";
-import { join } from "path";
+import { join } from "path/posix";
+import { UserFile } from "./interface";
+import { getUserPath } from "./path";
+import mime from "mime-types";
 
-export async function walkDirectory(path: string): Promise<string[]> {
+export async function getTree(path: string): Promise<string[]> {
   let result = [];
 
-  const files = await readdir(path);
+  const contents = await readdir(path, { encoding: "utf-8" });
 
-  for (let i = 0; i < files.length; i++) {
-    const Absolute = join(path, files[i]);
+  for (let i = 0; i < contents.length; i++) {
+    try {
+      const item = contents[i];
+      const itemPath = join(path, item);
+      const itemStat = await stat(itemPath);
 
-    const stats = await stat(Absolute);
+      if (itemStat.isDirectory()) {
+        result.push(...(await getTree(itemPath)));
+        continue;
+      }
 
-    if (stats.isDirectory()) {
-      result.push(...(await walkDirectory(Absolute)));
-
+      result.push(itemPath);
+    } catch {
       continue;
     }
-
-    result.push(Absolute);
   }
+
+  return result;
+}
+
+export async function getUserTree(username: string) {
+  const path = (await getUserPath(username, false)) as string;
+
+  const files = await getTree(path);
+
+  const result: UserFile[] = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const p = files[i].replace(path, ".");
+    const parts = p.split("/");
+    const filename = parts[parts.length - 1];
+
+    result.push({
+      mime: mime.contentType(filename) || "text/plain",
+      scopedPath: p,
+      filename,
+    });
+  }
+
+  console.log(result);
 
   return result;
 }

@@ -8,6 +8,7 @@ import { ArcOSFSItemCopy } from "../../api/arcos/fs/item/copy";
 import { ArcOSFSItemDelete } from "../../api/arcos/fs/item/delete";
 import { ArcOSFSItemRename } from "../../api/arcos/fs/item/rename";
 import { ArcOSFSQuota } from "../../api/arcos/fs/quota";
+import { ArcOSFSTree } from "../../api/arcos/fs/tree";
 import { ArcOSMessagesDelete } from "../../api/arcos/messaging/delete";
 import { ArcOSMessagesGet } from "../../api/arcos/messaging/get";
 import { ArcOSMessagesList } from "../../api/arcos/messaging/list";
@@ -265,6 +266,20 @@ export const ArcEval = new Map<string, Endpoint>([
       optionalParams: [],
       description: "Copy an item",
       func: ArcOSFSItemCopy,
+    },
+  ],
+  [
+    "/fs/tree",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [],
+      optionalParams: [{ key: "path", format: "base64" }],
+      description: "Get a file tree",
+      func: ArcOSFSTree,
     },
   ],
   [
