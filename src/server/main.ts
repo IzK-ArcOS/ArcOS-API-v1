@@ -6,21 +6,19 @@ import { isAdmin, isDisabled } from "../auth/role";
 import { verifyToken } from "../auth/token";
 import { verifyDBs } from "../db/main";
 import { verifyUserDirectories } from "../fs/dirs";
-import { getUserPath } from "../fs/path";
-import { getTree, getUserTree } from "../fs/walker";
 import { checkParams } from "./checkparams";
 import { Endpoint } from "./endpoint/main";
 import { Error, Ok } from "./return";
 
-export function makeServer(
+export async function makeServer(
   port: number,
   name: string,
   evaluator: Map<string, Endpoint>
 ) {
-  verifyDBs();
-  verifyUserDirectories();
+  console.log(`[SERVER] Starting API ${name} on localhost:${port}`);
 
-  console.log(`Creating HTTP server ${name} on localhost:${port}`);
+  await verifyDBs();
+  await verifyUserDirectories();
 
   const server = http.createServer(
     (req: IncomingMessage, res: ServerResponse) => {
@@ -71,104 +69,7 @@ export async function serverListener(
 
   const pathName = url.parse(req.url as string, true).pathname as string;
 
-  if (evaluator.has(pathName)) {
-    const endpoint = evaluator.get(pathName) as Endpoint;
-    const { username, password } = getAuth(req);
-    const token = req.headers.authorization
-      ? req.headers.authorization?.replace("Bearer", "").trim()
-      : "";
-    const userIsAdmin = await isAdmin(username);
-    const correctBasic = await verifyCredentials(username, password);
-    const correctToken =
-      endpoint.tokenAuth && (await verifyToken(endpoint, token));
-
-    console.log(
-      `server: serverListener: processing request for ${pathName.padEnd(
-        30,
-        " "
-      )} | ${endpoint.auth ? "Auth: YES" : "Auth:  NO"} | ${
-        endpoint.checkAuth ? "VerifyAuth: YES" : "VerifyAuth:  NO"
-      } | ${endpoint.admin ? "Admin: YES" : "Admin:  NO"}`
-    );
-
-    if (await isDisabled(username)) {
-      Ok(
-        res,
-        Error("Disabled", "Your account is disabled and cannot be used."),
-        401
-      );
-
-      return;
-    }
-
-    if ((!username || !password) && !endpoint.tokenAuth && endpoint.auth) {
-      Ok(
-        res,
-        Error(
-          "Unauthorized",
-          "This endpoint requires authentication, which wasn't provided."
-        ),
-        400
-      );
-
-      return;
-    }
-
-    if (!correctBasic && !endpoint.tokenAuth && endpoint.auth) {
-      Ok(
-        res,
-        Error(
-          "Access denied",
-          "Cannot access entrypoint: invalid credentials specified!"
-        ),
-        401
-      );
-
-      return;
-    }
-
-    if (!correctToken && endpoint.tokenAuth && endpoint.auth) {
-      Ok(
-        res,
-        Error(
-          "Access denied",
-          "Cannot access entrypoint: invalid token specified!"
-        ),
-        401
-      );
-
-      return;
-    }
-
-    if (checkParams(endpoint, req)) {
-      res.statusCode = 200;
-
-      try {
-        evaluator.get(pathName)?.func(req, res);
-      } catch {
-        Ok(
-          res,
-          Error(
-            "Server error",
-            "The endpoint failed to execute because of an unhandled exception.",
-            false
-          ),
-          500
-        );
-      }
-
-      return;
-    }
-
-    Ok(
-      res,
-      Error(
-        "Bad request",
-        "This endpoint requires some parameters that weren't provided."
-      ),
-      400
-    );
-  } else {
+  if (!evaluator.has(pathName)) {
     console.log(
       `server: serverListener: processing request for ${pathName.padEnd(
         30,
@@ -182,6 +83,99 @@ export async function serverListener(
       404
     );
   }
+  const endpoint = evaluator.get(pathName) as Endpoint;
+  const { username, password } = getAuth(req);
+  const token = req.headers.authorization
+    ? req.headers.authorization?.replace("Bearer", "").trim()
+    : "";
+  const userIsAdmin = await isAdmin(username);
+  const correctBasic = await verifyCredentials(username, password);
+  const correctToken =
+    endpoint.tokenAuth && (await verifyToken(endpoint, token));
+
+  console.log(
+    `[SERVER] [${
+      correctToken && token ? token : "INVALID_TOKEN"
+    }] ${new Date().getTime()} Incoming request for ${pathName}`
+  );
+
+  if (await isDisabled(username)) {
+    Ok(
+      res,
+      Error("Disabled", "Your account is disabled and cannot be used."),
+      401
+    );
+
+    return;
+  }
+
+  if ((!username || !password) && !endpoint.tokenAuth && endpoint.auth) {
+    Ok(
+      res,
+      Error(
+        "Unauthorized",
+        "This endpoint requires authentication, which wasn't provided."
+      ),
+      400
+    );
+
+    return;
+  }
+
+  if (!correctBasic && !endpoint.tokenAuth && endpoint.auth) {
+    Ok(
+      res,
+      Error(
+        "Access denied",
+        "Cannot access entrypoint: invalid credentials specified!"
+      ),
+      401
+    );
+
+    return;
+  }
+
+  if (!correctToken && endpoint.tokenAuth && endpoint.auth) {
+    Ok(
+      res,
+      Error(
+        "Access denied",
+        "Cannot access entrypoint: invalid token specified!"
+      ),
+      401
+    );
+
+    return;
+  }
+
+  if (checkParams(endpoint, req)) {
+    res.statusCode = 200;
+
+    try {
+      evaluator.get(pathName)?.func(req, res);
+    } catch {
+      Ok(
+        res,
+        Error(
+          "Server error",
+          "The endpoint failed to execute because of an unhandled exception.",
+          false
+        ),
+        500
+      );
+    }
+
+    return;
+  }
+
+  Ok(
+    res,
+    Error(
+      "Bad request",
+      "This endpoint requires some parameters that weren't provided."
+    ),
+    400
+  );
 
   res.end();
 }

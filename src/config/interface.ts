@@ -4,6 +4,7 @@ export interface Configuration {
   paths: {
     fs: string;
     db: string;
+    template: string;
   };
   maxFSSize: number;
 }
@@ -14,6 +15,7 @@ export interface FlexibleConfiguration {
   paths?: {
     fs?: string;
     db?: string;
+    template?: string;
   };
   maxFSSize?: number;
 }

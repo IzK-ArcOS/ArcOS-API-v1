@@ -19,10 +19,6 @@ export async function ArcOSFSFileWrite(
   req.on("end", async () => {
     const b = Buffer.concat(body);
 
-    console.log(body, b);
-
-    console.log("all parts/chunks have arrived");
-
     const username = (await verifyTokenByReq(req)) || "";
 
     let query;

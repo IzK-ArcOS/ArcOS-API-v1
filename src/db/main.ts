@@ -57,10 +57,9 @@ export async function verifyDBs() {
     } else exists = true;
 
     console.log(
-      `${`DB: verifyFiles: Database file ${path[1].path} (${path[1].name})`.padEnd(
-        70,
-        " "
-      )} ${exists ? "[PRESENT]" : "[MISSING]"}`
+      `${`[DB] [verifyFiles] Database file ${path[1].path}`.padEnd(50, " ")} ${
+        exists ? "PRESENT" : "MISSING"
+      }`
     );
   }
 }

@@ -9,6 +9,7 @@ export const DEFAULT_CONFIG: Configuration = {
   paths: {
     fs: "./fs",
     db: "./db",
+    template: "./template",
   },
   maxFSSize: 2 * 1024 * 1024 * 1024,
 };

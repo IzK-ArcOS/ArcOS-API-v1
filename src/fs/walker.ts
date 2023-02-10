@@ -48,7 +48,5 @@ export async function getUserTree(username: string) {
     });
   }
 
-  console.log(result);
-
   return result;
 }

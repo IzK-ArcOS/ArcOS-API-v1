@@ -14,8 +14,6 @@ export async function ArcOSUserPropertiesUpdate(
   });
 
   req.on("end", async () => {
-    console.log("all parts/chunks have arrived");
-
     const data = Buffer.concat(chunks).toString();
 
     const username = (await verifyTokenByReq(req)) || "";

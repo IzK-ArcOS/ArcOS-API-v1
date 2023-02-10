@@ -10,7 +10,7 @@ export async function loadConfig() {
 
     await setConfig(config);
   } catch {
-    console.log("loadConfig: unable to parse config, writing defaults");
+    console.log("loadConfig: unable to parse config, assuming defaults");
 
     await writeFile("./config.json", JSON.stringify(DEFAULT_CONFIG), {
       encoding: "utf-8",

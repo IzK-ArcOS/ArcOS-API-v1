@@ -4,29 +4,29 @@ import { fsroot } from "../env/main";
 import { joinPath, userPathExists } from "./path";
 
 export async function verifyUserDirectories() {
-  console.log(
-    `VerifyUserDirectories: verifying user directories for all users...`
-  );
+  console.log(`[FS] [verifyUserDirectories] Now verifying user directories...`);
   const users = Object.keys((await getDB("pref")) as { [key: string]: string });
 
   if (!users || !users.length) return false;
 
   for (let i = 0; i < users.length; i++) {
     if (await userPathExists(users[i])) {
-      console.log(`VerifyUserDirectories: ${users[i]} has a user directory.`);
+      console.log(`[FS] [verifyUserDirectories] [${i}] Directory present.`);
 
       continue;
     }
 
     console.log(
-      `VerifyUserDirectories: ${users[i]} has no user directory, creating.`
+      `[FS] [verifyUserDirectories] [${i}] No directory, creating "${joinPath(
+        fsroot,
+        users[i]
+      )}".`
     );
-
     try {
       mkdir(joinPath(fsroot, users[i]));
     } catch (e) {
       console.log(
-        `VerifyUserDirectories: Couldn't create user directory for ${users[i]}: ${e}`
+        `[FS] [verifyUserDirectories] [${i}] Unable to create user directory.`
       );
     }
   }

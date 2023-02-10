@@ -3,6 +3,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import { getAuth } from "../../../auth/get";
 import { createUser } from "../../../auth/user";
 import { fsroot } from "../../../env/main";
+import { deployTemplate } from "../../../fs/templating/main";
 import { Error, Ok } from "../../../server/return";
 
 export async function ArcOSUserCreate(
@@ -36,6 +37,7 @@ export async function ArcOSUserCreate(
 
   try {
     await mkdir(`${fsroot}/${username}`, { recursive: true });
+    await deployTemplate(username);
   } catch {
     console.warn("User directory could not be created, it may already exist.");
   }

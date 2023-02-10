@@ -15,14 +15,11 @@ export async function ArcOSMessagesSend(
   });
 
   req.on("end", async () => {
-    console.log("Received all chunks");
     const query = parse(req.url as string, true).query;
     const target = atob(query["target"] as string);
     const sender = (await verifyTokenByReq(req)) as string;
 
     const content = Buffer.concat(body).toString();
-
-    console.log(body);
 
     const messageId = await sendMessage(sender, target, content);
 
