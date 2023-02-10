@@ -3,7 +3,11 @@ import { join } from "path";
 import { userExists } from "../../auth/user";
 import { getUserPath } from "../path";
 
-export const MAX_QUOTA = 2 * 1024 * 1024 * 1024;
+export let MAX_QUOTA = 2 * 1024 * 1024 * 1024;
+
+export function setMaxQuota(num: number) {
+  MAX_QUOTA = num;
+}
 
 export async function getFreeSpace(username: string) {
   if (!(await userExists(username))) return 0;

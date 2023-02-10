@@ -1,0 +1,6 @@
+{
+  "port": 3333,
+  "name": "ArcAPI",
+  "paths": { "fs": "./fs", "db": "./db" },
+  "maxFSSize": 2147483648
+}
