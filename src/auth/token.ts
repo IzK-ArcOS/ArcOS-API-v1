@@ -23,3 +23,9 @@ export async function verifyTokenByReq(req: IncomingMessage) {
 
   return tdb[token] || false;
 }
+
+export function getToken(req: IncomingMessage): string {
+  return req.headers.authorization
+    ? req.headers.authorization?.replace("Bearer", "").trim()
+    : "";
+}

@@ -9,6 +9,7 @@ import { ArcOSFSItemDelete } from "../../api/arcos/fs/item/delete";
 import { ArcOSFSItemRename } from "../../api/arcos/fs/item/rename";
 import { ArcOSFSQuota } from "../../api/arcos/fs/quota";
 import { ArcOSFSTree } from "../../api/arcos/fs/tree";
+import { ArcOSLogoff } from "../../api/arcos/logoff";
 import { ArcOSMessagesDelete } from "../../api/arcos/messaging/delete";
 import { ArcOSMessagesGet } from "../../api/arcos/messaging/get";
 import { ArcOSMessagesList } from "../../api/arcos/messaging/list";
@@ -36,6 +37,20 @@ export const ArcEval = new Map<string, Endpoint>([
       optionalParams: [],
       description: "Generate a token from credentials in request body",
       func: ArcOSAuth,
+    },
+  ],
+  [
+    "/logoff",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [],
+      optionalParams: [],
+      description: "Discontinue token at logoff",
+      func: ArcOSLogoff,
     },
   ],
   [
