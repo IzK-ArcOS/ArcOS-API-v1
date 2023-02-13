@@ -5,6 +5,7 @@ import { verifyTokenByReq } from "../../../auth/token";
 import { userExists } from "../../../auth/user";
 import { CommitOk, getDB } from "../../../db/main";
 import { fsroot } from "../../../env/main";
+import { MsgDB } from "../../../messaging/interface";
 import { Error, Ok } from "../../../server/return";
 import { TokenDB } from "../../../tokens/interface";
 
@@ -25,6 +26,7 @@ export async function ArcOSUserRename(
   const cdb = (await getDB("cred")) as { [key: string]: string };
   const pdb = (await getDB("pref")) as { [key: string]: any };
   const tdb = (await getDB("tokens")) as TokenDB;
+  const mdb = (await getDB("msg")) as MsgDB;
 
   cdb[newUsername] = cdb[username];
   pdb[newUsername] = pdb[username];
@@ -44,11 +46,21 @@ export async function ArcOSUserRename(
     console.warn("User directory could not be renamed!");
   }
 
+  const entries = Object.entries(mdb);
+
+  for (let i = 0; i < entries.length; i++) {
+    const msg = entries[i][1];
+
+    if (msg.receiver == username) msg.receiver = newUsername;
+    if (msg.sender == username) msg.sender = newUsername;
+  }
+
   CommitOk(
     "rename user",
     res,
     { db: "pref", data: pdb },
     { db: "cred", data: cdb },
-    { db: "tokens", data: tdb }
+    { db: "tokens", data: tdb },
+    { db: "msg", data: mdb }
   );
 }
