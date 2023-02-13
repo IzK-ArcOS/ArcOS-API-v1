@@ -17,8 +17,6 @@ export async function ArcOSMessagesGet(
 
   const message = await getMessage(username, id);
 
-  await markAsRead(id);
-
   if (!message)
     return Ok(
       res,
@@ -27,6 +25,8 @@ export async function ArcOSMessagesGet(
         "No message with that ID exists or you don't have permission to access it."
       )
     );
+
+  if (message.receiver == username) await markAsRead(id);
 
   Ok(res, DataRes(message, true), 200);
 }

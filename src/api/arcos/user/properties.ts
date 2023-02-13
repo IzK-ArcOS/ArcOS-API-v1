@@ -7,15 +7,7 @@ export async function ArcOSUserProperties(
   req: IncomingMessage,
   res: ServerResponse
 ) {
-  const username = await verifyTokenByReq(req);
-
-  if (!username) {
-    return Ok(
-      res,
-      Error("Can't get properties", "User could not be found."),
-      401
-    );
-  }
+  const username = (await verifyTokenByReq(req)) as string;
 
   const pdb = await getDB("pref");
 

@@ -9,18 +9,7 @@ export async function ArcOSFSItemDelete(
   req: IncomingMessage,
   res: ServerResponse
 ) {
-  const username = await verifyTokenByReq(req);
-
-  if (!username) {
-    return Ok(
-      res,
-      Error(
-        "Can't delete item",
-        "The token could not be verified: no username attached to definition."
-      ),
-      401
-    );
-  }
+  const username = (await verifyTokenByReq(req)) as string;
 
   try {
     const query = url.parse(req.url as string, true).query;

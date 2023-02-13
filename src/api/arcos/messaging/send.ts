@@ -21,6 +21,16 @@ export async function ArcOSMessagesSend(
 
     const content = Buffer.concat(body).toString();
 
+    if (content.length > 2000)
+      return Ok(
+        res,
+        Error(
+          "Could not send message",
+          "The message content exceeeds the maximum allowed length."
+        ),
+        400
+      );
+
     const messageId = await sendMessage(sender, target, content);
 
     if (!messageId)

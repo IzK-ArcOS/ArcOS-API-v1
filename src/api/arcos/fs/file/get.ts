@@ -9,18 +9,8 @@ export async function ArcOSFSFileGet(
   req: IncomingMessage,
   res: ServerResponse
 ) {
-  const username = await verifyTokenByReq(req);
+  const username = (await verifyTokenByReq(req)) as string;
 
-  if (!username) {
-    return Ok(
-      res,
-      Error(
-        "Can't get user directory",
-        "The token could not be verified: no username attached to definition."
-      ),
-      401
-    );
-  }
   try {
     const query = url.parse(req.url as string, true).query;
     const pathParam = atob((query["path"] as string) || "Li8="); // fallback to './'

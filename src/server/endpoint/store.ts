@@ -15,6 +15,7 @@ import { ArcOSMessagesGet } from "../../api/arcos/messaging/get";
 import { ArcOSMessagesList } from "../../api/arcos/messaging/list";
 import { ArcOSMessagesReply } from "../../api/arcos/messaging/reply";
 import { ArcOSMessagesSend } from "../../api/arcos/messaging/send";
+import { ArcOSMessagesThread } from "../../api/arcos/messaging/thread";
 import { ArcOSUserChangePassword } from "../../api/arcos/user/changepswd";
 import { ArcOSUserCreate } from "../../api/arcos/user/create";
 import { ArcOSUserDelete } from "../../api/arcos/user/delete";
@@ -368,6 +369,20 @@ export const ArcEval = new Map<string, Endpoint>([
       optionalParams: [],
       description: "Delete a message",
       func: ArcOSMessagesDelete,
+    },
+  ],
+  [
+    "/messages/thread",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: false,
+      requiredParams: [],
+      optionalParams: [{ key: "id", format: "base64" }],
+      description: "Get message tree recursively",
+      func: ArcOSMessagesThread,
     },
   ],
 ]);

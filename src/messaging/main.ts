@@ -91,6 +91,15 @@ export async function getMessage(
 }
 
 export function generatePartial(message: Message): PartialMessage {
+  if (!message)
+    return {
+      sender: "Unknown",
+      receiver: "Unknown",
+      partialBody: "Message not found!",
+      timestamp: new Date().getTime(),
+      id: `${Math.floor(Math.random() * 1e9)}`,
+      read: false,
+    };
   return {
     sender: message.sender,
     receiver: message.receiver,

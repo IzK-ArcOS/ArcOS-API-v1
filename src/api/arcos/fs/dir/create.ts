@@ -8,17 +8,7 @@ export async function ArcOSFSDirCreate(
   req: IncomingMessage,
   res: ServerResponse
 ) {
-  const username = await verifyTokenByReq(req);
-
-  if (!username)
-    return Ok(
-      res,
-      Error(
-        "Can't get user directory",
-        "The token could not be verified: no username attached to definition."
-      ),
-      401
-    );
+  const username = (await verifyTokenByReq(req)) as string;
 
   const query = url.parse(req.url as string, true).query;
   const path = atob((query["path"] as string) || "Li8="); // fallback to './'

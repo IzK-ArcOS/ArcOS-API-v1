@@ -9,9 +9,7 @@ export async function ArcOSUserDelete(
   req: IncomingMessage,
   res: ServerResponse
 ) {
-  const username = await verifyTokenByReq(req);
-
-  if (!username) return;
+  const username = (await verifyTokenByReq(req)) as string;
 
   const cdb = (await getDB("cred")) as { [key: string]: string };
   const pdb = (await getDB("pref")) as { [key: string]: any };

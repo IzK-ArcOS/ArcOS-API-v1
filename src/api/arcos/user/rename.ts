@@ -14,9 +14,7 @@ export async function ArcOSUserRename(
 ) {
   const query = url.parse(req.url as string, true).query;
   const newUsername = atob(query["newname"] as string);
-  const username = await verifyTokenByReq(req);
-
-  if (!username) return;
+  const username = (await verifyTokenByReq(req)) as string;
 
   if (await userExists(newUsername))
     return Ok(
