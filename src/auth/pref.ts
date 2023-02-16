@@ -10,13 +10,13 @@ export interface UserPreferences {
     window: {
       bigtb: boolean; //done
       lefttb: boolean; //done
-      traffic: boolean;
+      buttons: string;
     };
 
     desktop: {
       wallpaper: string | null;
       icons: boolean;
-      theme: "dark" | "light";
+      theme: "light" | "dark";
       sharp: boolean;
     };
 
@@ -31,6 +31,8 @@ export interface UserPreferences {
 
   disabledApps: string[];
   autoRun: string[];
+  autoLoads: string[];
+  askPresist: boolean;
   devmode: boolean;
 
   acc: {
@@ -61,7 +63,7 @@ export const DefaultUserdata: UserPreferences = {
     window: {
       lefttb: false,
       bigtb: true,
-      traffic: false,
+      buttons: "default",
     },
     desktop: {
       wallpaper: "img04",
@@ -73,6 +75,7 @@ export const DefaultUserdata: UserPreferences = {
       small: true,
     },
     anim: true,
+
     noQuickSettings: false,
     noGlass: false,
   },
@@ -87,6 +90,8 @@ export const DefaultUserdata: UserPreferences = {
   },
   disabledApps: [],
   autoRun: [],
+  autoLoads: [],
+  askPresist: true,
   devmode: false,
   appdata: {},
 };
