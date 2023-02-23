@@ -3,7 +3,7 @@ import url from "url";
 import { getAuth } from "../auth/get";
 import { verifyCredentials } from "../auth/main";
 import { isAdmin, isDisabled } from "../auth/role";
-import { verifyToken } from "../auth/token";
+import { verifyToken, verifyTokenByReq } from "../auth/token";
 import { verifyDBs } from "../db/main";
 import { verifyUserDirectories } from "../fs/dirs";
 import { checkParams } from "./checkparams";
@@ -88,7 +88,9 @@ export async function serverListener(
   const token = req.headers.authorization
     ? req.headers.authorization?.replace("Bearer", "").trim()
     : "";
-  const userIsAdmin = await isAdmin(username);
+  const userIsAdmin = await isAdmin(
+    endpoint.tokenAuth ? ((await verifyTokenByReq(req)) as string) : username
+  );
   const correctBasic = await verifyCredentials(username, password);
   const correctToken =
     endpoint.tokenAuth && (await verifyToken(endpoint, token));
@@ -146,6 +148,17 @@ export async function serverListener(
     );
 
     return;
+  }
+
+  if (!userIsAdmin && endpoint.admin) {
+    return Ok(
+      res,
+      Error(
+        "Access denied",
+        "This endpoint requires administrative privileges."
+      ),
+      401
+    );
   }
 
   if (checkParams(endpoint, req)) {

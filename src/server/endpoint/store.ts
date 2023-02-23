@@ -1,3 +1,5 @@
+import { ArcOSAdminFSQuota } from "../../api/arcos/admin/fs/quota";
+import { ArcOSAdminTokenGen } from "../../api/arcos/admin/tokengen";
 import { ArcOSAuth } from "../../api/arcos/auth";
 import { ArcOSConnect } from "../../api/arcos/connect";
 import { ArcOSFSDirCreate } from "../../api/arcos/fs/dir/create";
@@ -383,6 +385,34 @@ export const ArcEval = new Map<string, Endpoint>([
       optionalParams: [{ key: "id", format: "base64" }],
       description: "Get message tree recursively",
       func: ArcOSMessagesThread,
+    },
+  ],
+  [
+    "/admin/fs/quota",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: true,
+      requiredParams: [{ key: "user", format: "base64" }],
+      optionalParams: [],
+      description: "Get the FS quota for any user",
+      func: ArcOSAdminFSQuota,
+    },
+  ],
+  [
+    "/admin/tokengen",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: true,
+      requiredParams: [{ key: "user", format: "base64" }],
+      optionalParams: [],
+      description: "Generate a token for any user",
+      func: ArcOSAdminTokenGen,
     },
   ],
 ]);
