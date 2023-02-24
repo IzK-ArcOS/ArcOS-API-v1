@@ -1,4 +1,7 @@
+import { ArcOSAdminAuth } from "../../api/arcos/admin/auth";
 import { ArcOSAdminFSQuota } from "../../api/arcos/admin/fs/quota";
+import { ArcOSAdminPreferencesGet } from "../../api/arcos/admin/preferences/get";
+import { ArcOSAdminPreferencesUpdate } from "../../api/arcos/admin/preferences/update";
 import { ArcOSAdminTokenGen } from "../../api/arcos/admin/tokengen";
 import { ArcOSAuth } from "../../api/arcos/auth";
 import { ArcOSConnect } from "../../api/arcos/connect";
@@ -413,6 +416,48 @@ export const ArcEval = new Map<string, Endpoint>([
       optionalParams: [],
       description: "Generate a token for any user",
       func: ArcOSAdminTokenGen,
+    },
+  ],
+  [
+    "/admin/auth",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: true,
+      requiredParams: [],
+      optionalParams: [],
+      description: "Authenticate the admin portal",
+      func: ArcOSAdminAuth,
+    },
+  ],
+  [
+    "/admin/preferences/get",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: true,
+      requiredParams: [{ key: "user", format: "base64" }],
+      optionalParams: [],
+      description: "Get the preferences for any user",
+      func: ArcOSAdminPreferencesGet,
+    },
+  ],
+  [
+    "/admin/preferences/update",
+    {
+      auth: true,
+      credAuth: false,
+      tokenAuth: true,
+      checkAuth: true,
+      admin: true,
+      requiredParams: [{ key: "user", format: "base64" }],
+      optionalParams: [],
+      description: "Update the preferences of any user",
+      func: ArcOSAdminPreferencesUpdate,
     },
   ],
 ]);

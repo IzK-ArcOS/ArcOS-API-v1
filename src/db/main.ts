@@ -77,27 +77,12 @@ export async function CommitOk(
       const written = await setDB(db, data);
 
       if (!written) {
-        Ok(
-          res,
-          Error(
-            "Write failed",
-            `Cannot ${source}: database change did not process.`,
-            false
-          ),
-          304
-        );
+        Ok(res, "", 304);
 
         return;
       }
 
-      Ok(
-        res,
-        Error(
-          "Write completed",
-          `Endpoint '${source}' completed successfully.`,
-          true
-        )
-      );
+      Ok(res, "", 200);
     }
   }
 }
