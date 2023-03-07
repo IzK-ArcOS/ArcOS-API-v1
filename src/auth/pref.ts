@@ -16,8 +16,9 @@ export interface UserPreferences {
     desktop: {
       wallpaper: string | null;
       icons: boolean;
-      theme: "light" | "dark";
+      theme: "light" | "dark" | string;
       sharp: boolean;
+      accent: string;
     };
 
     start: {
@@ -27,6 +28,7 @@ export interface UserPreferences {
     anim: boolean; //done
     noGlass: boolean; //done
     noQuickSettings: boolean;
+    userThemes?: ThemeStore;
   };
 
   disabledApps: string[];
@@ -47,6 +49,29 @@ export interface UserPreferences {
 
   appdata: AppData;
 }
+
+export interface UserTheme {
+  author: string;
+  version: string;
+  name: string;
+  /** */
+  anim: boolean;
+  noGlass: boolean;
+  sharp: boolean;
+  theme: string;
+  wallpaper: string;
+  taskbarCentered: boolean;
+  taskbarLabels: boolean;
+  taskbarPosition: "vertical" | "" | "vertical-right";
+  docked: boolean;
+  accent: string;
+  smallStart: boolean;
+  titleButtons: string;
+  titlebarLeft: boolean;
+  titlebarLarge: boolean;
+}
+
+export type ThemeStore = { [key: string]: UserTheme };
 
 export type AppData = {
   [key: string]: { [key: string]: number | boolean | string | object };
@@ -70,6 +95,7 @@ export const DefaultUserdata: UserPreferences = {
       icons: true,
       theme: "dark",
       sharp: false,
+      accent: "70D6FF",
     },
     start: {
       small: true,
@@ -78,6 +104,7 @@ export const DefaultUserdata: UserPreferences = {
 
     noQuickSettings: false,
     noGlass: false,
+    userThemes: {},
   },
   acc: {
     enabled: true,
