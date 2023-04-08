@@ -1,13 +1,19 @@
 import { existsSync } from "fs";
-import { readFile, writeFile } from "fs/promises";
+import { mkdir, readFile, writeFile } from "fs/promises";
 import { ServerResponse } from "http";
-import { DB, DBs } from "../env/main";
+import { DB, dbRoot, DBs } from "../env/main";
 import { Error, Ok } from "../server/return";
+import sleep from "../sleep";
+
+const counters: { [key: string]: number } = {};
+const dbCache: { [key: string]: any } = {};
 
 export async function getDB(
   name: string
 ): Promise<{ [key: string]: any } | undefined> {
   if (!DBs.has(name)) return undefined;
+
+  if (dbCache[name]) return dbCache[name];
 
   const dbInfo = DBs.get(name) as DB;
 
@@ -27,11 +33,45 @@ export async function getDB(
     json = undefined;
   }
 
+  dbCache[name] = json;
+
   return json;
 }
 
 export async function setDB(name: string, data: object): Promise<boolean> {
   if (!DBs.has(name)) return false;
+
+  if (!counters[name]) counters[name] = 0;
+
+  if (dbCache[name]) {
+    counters[name]++;
+
+    dbCache[name] = data;
+
+    if (counters[name] > 15 && Object.entries(data).length) {
+      counters[name] = 0;
+
+      const dI = DBs.get(name) as DB;
+
+      try {
+        await writeFile(
+          `${dbRoot}/backups/${name}.old_${new Date().getTime()}`,
+          await readFile(dI?.path),
+          { encoding: "utf-8" }
+        );
+
+        await writeFile(dI?.path, JSON.stringify(data));
+
+        await sleep(5);
+
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    return true;
+  }
 
   const dI = DBs.get(name) as DB;
 
@@ -45,6 +85,16 @@ export async function setDB(name: string, data: object): Promise<boolean> {
 }
 
 export async function verifyDBs() {
+  try {
+    await mkdir(`${dbRoot}/backups`);
+
+    console.log("Created backup directory!");
+  } catch {
+    console.log(
+      "warning: could not create backup directory. Does it exist already?"
+    );
+  }
+
   for (const path of DBs) {
     let exists = false;
 
@@ -55,6 +105,14 @@ export async function verifyDBs() {
 
       writeFile(path[1].path, "{}", { encoding: "utf-8" });
     } else exists = true;
+
+    await getDB(path[0]);
+
+    await writeFile(
+      `${dbRoot}/backups/${path[0]}.initial_${new Date().getTime()}`,
+      await readFile(path[1].path),
+      { encoding: "utf-8" }
+    );
 
     console.log(
       `${`[DB] [verifyFiles] Database file ${path[1].path}`.padEnd(50, " ")} ${
