@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import url from "url";
 import { CONFIG } from "../../config/store";
 import { Ok } from "../../server/return";
+import { apiRevision } from "../../env/main";
 
 export async function ArcOSConnect(req: IncomingMessage, res: ServerResponse) {
   console.log(url.parse(req.url as string, true));
@@ -12,6 +13,7 @@ export async function ArcOSConnect(req: IncomingMessage, res: ServerResponse) {
       port: CONFIG.port,
       referrer: url.parse(req.url as string).pathname,
       valid: true,
+      revision: apiRevision,
     })
   );
 }
