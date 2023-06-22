@@ -4,7 +4,7 @@ export let dbRoot = "";
 export let templateRoot = "";
 export let fsroot = "";
 export let DBs = new Map<string, DB>();
-export const apiRevision = 0;
+export const apiRevision = 1;
 
 export async function setRoots(fs: string, db: string, tmp: string) {
   const paths = [fs, db, tmp];
