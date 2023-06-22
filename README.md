@@ -24,7 +24,7 @@ Follow these steps to build and run the ArcOS API. Do note that this API runs on
   $ npm i
   
   # Start the API on port 3333
-  $npm start
+  $ npm start
 ```
 
 ## Proxying with NGINX
