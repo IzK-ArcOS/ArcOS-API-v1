@@ -1,8 +1,8 @@
 import { existsSync } from "fs";
 import { mkdir, readFile, writeFile } from "fs/promises";
 import { ServerResponse } from "http";
-import { DB, dbRoot, DBs } from "../env/main";
-import { Error, Ok } from "../server/return";
+import { DB, DBs, dbRoot } from "../env/main";
+import { Ok } from "../server/return";
 import sleep from "../sleep";
 
 const counters: { [key: string]: number } = {};
@@ -13,7 +13,9 @@ export async function getDB(
 ): Promise<{ [key: string]: any } | undefined> {
   if (!DBs.has(name)) return undefined;
 
-  if (dbCache[name]) return dbCache[name];
+  console.log(name, DBs.get(name));
+
+  if (dbCache[name] && !DBs.get(name)?.noCache) return dbCache[name];
 
   const dbInfo = DBs.get(name) as DB;
 
@@ -41,6 +43,17 @@ export async function getDB(
 export async function setDB(name: string, data: object): Promise<boolean> {
   if (!DBs.has(name)) return false;
 
+  const dI = DBs.get(name) as DB;
+
+  if (dI.noCache)
+    try {
+      await writeFile(dI?.path, JSON.stringify(data));
+
+      return true;
+    } catch {
+      return false;
+    }
+
   if (!counters[name]) counters[name] = 0;
 
   if (dbCache[name]) {
@@ -50,8 +63,6 @@ export async function setDB(name: string, data: object): Promise<boolean> {
 
     if (counters[name] > 15 && Object.entries(data).length) {
       counters[name] = 0;
-
-      const dI = DBs.get(name) as DB;
 
       try {
         await writeFile(
@@ -72,8 +83,6 @@ export async function setDB(name: string, data: object): Promise<boolean> {
 
     return true;
   }
-
-  const dI = DBs.get(name) as DB;
 
   try {
     await writeFile(dI?.path, JSON.stringify(data));

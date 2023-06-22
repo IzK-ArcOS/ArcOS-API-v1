@@ -29,6 +29,7 @@ export async function setRoots(fs: string, db: string, tmp: string) {
       {
         name: "Credentials",
         path: `${dbRoot}/cred.json`,
+        noCache: true,
       },
     ],
     [
@@ -58,4 +59,5 @@ export async function setRoots(fs: string, db: string, tmp: string) {
 export interface DB {
   name: string;
   path: string;
+  noCache?: boolean;
 }
