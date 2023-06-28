@@ -86,4 +86,4 @@ This means that NodeJS or ArcAPI doesn't have permission to access the filesyste
 
 #### None of these worked for me
 
-That's... not good. That means you've found a bug that hasn't yet been resolved. The best thing you can do now is [Create an Issue](https://github.com/IzK-ArcOS/ArcOS-API-v1/issues/new) and/or to talk to us about the problem on our Discord server [here](https://discord.gg/ARjRM6uNqf), channel `#⚠️-troubleshooting`
+That's... not good. That means you've found a bug that hasn't yet been resolved. The best thing you can do now is [Create an Issue](https://github.com/IzK-ArcOS/ArcOS-API-v1/issues/new) and/or to talk to us about the problem in our Discord server [here](https://discord.gg/ARjRM6uNqf), channel `#⚠️-troubleshooting`
