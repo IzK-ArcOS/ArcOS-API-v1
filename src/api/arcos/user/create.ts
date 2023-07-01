@@ -12,6 +12,12 @@ export async function ArcOSUserCreate(
 ) {
   const { username, password } = getAuth(req);
 
+  if (!username || !password) {
+    Ok(res, Error("User not created", "Missing username or password", false));
+
+    return;
+  }
+
   const createStatus = await createUser(username, password);
 
   if (createStatus != "created") {

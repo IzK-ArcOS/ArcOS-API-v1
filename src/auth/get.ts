@@ -7,8 +7,8 @@ export function getAuth(req: IncomingMessage) {
 
   const auth = Buffer.from(token, "base64").toString();
   const parts = auth.split(/:/);
-  const username = parts.shift() || "";
-  const password = parts.join(":");
+  const username = parts.shift()?.trim() || "";
+  const password = parts.join(":").trim();
 
   return { username, password };
 }
