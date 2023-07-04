@@ -5,3 +5,4 @@ dist/
 /template/*
 yarn-error.log
 yarn.lock
+config.json*
