@@ -3,6 +3,7 @@ import { mkdir } from "fs/promises";
 export let dbRoot = "";
 export let templateRoot = "";
 export let fsroot = "";
+export let pincode = "";
 export let DBs = new Map<string, DB>();
 export const apiRevision = 1;
 

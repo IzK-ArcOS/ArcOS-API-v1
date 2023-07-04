@@ -4,6 +4,7 @@ import { ServerResponse } from "http";
 import { DB, DBs, dbRoot } from "../env/main";
 import { Ok } from "../server/return";
 import sleep from "../sleep";
+import { CONFIG } from "../config/store";
 
 const counters: { [key: string]: number } = {};
 const dbCache: { [key: string]: any } = {};
@@ -15,7 +16,8 @@ export async function getDB(
 
   console.log(name, DBs.get(name));
 
-  if (dbCache[name] && !DBs.get(name)?.noCache) return dbCache[name];
+  if (!CONFIG.noCaching && dbCache[name] && !DBs.get(name)?.noCache)
+    return dbCache[name];
 
   const dbInfo = DBs.get(name) as DB;
 
@@ -35,7 +37,7 @@ export async function getDB(
     json = undefined;
   }
 
-  dbCache[name] = json;
+  if (!CONFIG.noCaching) dbCache[name] = json;
 
   return json;
 }

@@ -9,6 +9,7 @@ import { verifyUserDirectories } from "../fs/dirs";
 import { checkParams } from "./checkparams";
 import { Endpoint } from "./endpoint/main";
 import { Error, Ok } from "./return";
+import { checkAuthcode } from "./authcode";
 
 export async function makeServer(
   port: number,
@@ -23,6 +24,18 @@ export async function makeServer(
   const server = http.createServer(
     (req: IncomingMessage, res: ServerResponse) => {
       res.setHeader("content-type", "application/json");
+
+      if (!checkAuthcode(req)) {
+        Ok(
+          res,
+          Error(
+            "Can't process request",
+            "This is a private API that requires valid AuthCode authentication to be provided with the request.",
+            false
+          ),
+          403
+        );
+      }
 
       serverListener(req, res, evaluator);
     }

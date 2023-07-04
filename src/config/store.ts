@@ -12,6 +12,8 @@ export const DEFAULT_CONFIG: Configuration = {
     template: "./template",
   },
   maxFSSize: 2 * 1024 * 1024 * 1024,
+  authCode: "",
+  noCaching: false,
 };
 
 export function setConfig(config: Configuration) {

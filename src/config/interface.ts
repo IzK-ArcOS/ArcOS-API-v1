@@ -7,6 +7,8 @@ export interface Configuration {
     template: string;
   };
   maxFSSize: number;
+  authCode: string;
+  noCaching: boolean;
 }
 
 export interface FlexibleConfiguration {
@@ -18,4 +20,6 @@ export interface FlexibleConfiguration {
     template?: string;
   };
   maxFSSize?: number;
+  authCode?: string;
+  noCaching?: boolean;
 }

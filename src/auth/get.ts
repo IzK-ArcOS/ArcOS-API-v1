@@ -1,4 +1,5 @@
 import { IncomingMessage } from "http";
+import { isUsernameValid } from "./filter";
 
 export function getAuth(req: IncomingMessage) {
   const header = req.headers.authorization;
@@ -8,8 +9,12 @@ export function getAuth(req: IncomingMessage) {
   const username = parts.shift()?.trim() || "";
   const password = parts.join(":").trim();
 
+  const userValid = isUsernameValid(username);
+
   return {
-    username: username.substring(0, Math.min(username.length, 25)),
+    username: userValid
+      ? username.substring(0, Math.min(username.length, 25))
+      : "",
     password,
   };
 }

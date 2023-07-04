@@ -6,5 +6,6 @@
     "db": "./db",
     "template": "./template"
   },
-  "maxFSSize": 2147483648
+  "maxFSSize": 2147483648,
+  "authCode": ""
 }
