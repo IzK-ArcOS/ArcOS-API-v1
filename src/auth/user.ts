@@ -1,6 +1,7 @@
 import argon2 from "argon2";
 import { getDB, setDB } from "../db/main";
 import { DefaultUserdata, UserPreferences } from "./pref";
+import { isUsernameValid } from "./filter";
 
 export async function createUser(
   username: string,
@@ -30,6 +31,8 @@ export async function createUser(
 }
 
 export async function userExists(username: string) {
+  if (!isUsernameValid(username)) return false;
+
   const pdb = (await getDB("pref")) as { [key: string]: any };
   const cdb = (await getDB("cred")) as { [key: string]: string };
 

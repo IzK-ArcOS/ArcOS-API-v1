@@ -2,7 +2,6 @@ import { getDB } from "../db/main";
 import { UserPreferences } from "./pref";
 
 export async function isAdmin(username: string): Promise<boolean> {
-  console.log(btoa(username));
   const pdb = (await getDB("pref")) as { [key: string]: UserPreferences };
   const cdb = (await getDB("cred")) as { [key: string]: string };
 

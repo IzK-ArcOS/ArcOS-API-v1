@@ -8,6 +8,7 @@ import { fsroot } from "../../../env/main";
 import { MsgDB } from "../../../messaging/interface";
 import { Error, Ok } from "../../../server/return";
 import { TokenDB } from "../../../tokens/interface";
+import { isUsernameValid } from "../../../auth/filter";
 
 export async function ArcOSUserRename(
   req: IncomingMessage,
@@ -21,6 +22,16 @@ export async function ArcOSUserRename(
     return Ok(
       res,
       Error("Can't rename user", "The new username already exists.", false)
+    );
+
+  if (!isUsernameValid(newUsername))
+    return Ok(
+      res,
+      Error(
+        "Can't rename user",
+        "The new username contains prohibited characters.",
+        false
+      )
     );
 
   const cdb = (await getDB("cred")) as { [key: string]: string };
