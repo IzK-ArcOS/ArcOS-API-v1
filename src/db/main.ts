@@ -14,8 +14,6 @@ export async function getDB(
 ): Promise<{ [key: string]: any } | undefined> {
   if (!DBs.has(name)) return undefined;
 
-  console.log(name, DBs.get(name));
-
   if (!CONFIG.noCaching && dbCache[name] && !DBs.get(name)?.noCache)
     return dbCache[name];
 
@@ -46,6 +44,8 @@ export async function setDB(name: string, data: object): Promise<boolean> {
   if (!DBs.has(name)) return false;
 
   const dI = DBs.get(name) as DB;
+
+  await sleep(500);
 
   if (dI.noCache)
     try {

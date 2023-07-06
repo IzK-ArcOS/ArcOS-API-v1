@@ -5,7 +5,6 @@ import { Ok } from "../../server/return";
 import { apiRevision } from "../../env/main";
 
 export async function ArcOSConnect(req: IncomingMessage, res: ServerResponse) {
-  console.log(url.parse(req.url as string, true));
   Ok(
     res,
     JSON.stringify({
