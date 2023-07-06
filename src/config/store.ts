@@ -14,9 +14,17 @@ export const DEFAULT_CONFIG: Configuration = {
   maxFSSize: 2 * 1024 * 1024 * 1024,
   authCode: "",
   noCaching: false,
+  lockThrottle: 10,
 };
 
 export function setConfig(config: Configuration) {
+  if (typeof config.lockThrottle === "number" && config.lockThrottle <= 9) {
+    console.log(
+      "[SERVER] Aborting: the lockThrottle must be above or equal to 10."
+    );
+
+    process.exit(1);
+  }
   CONFIG = config;
 
   setMaxQuota(config?.maxFSSize);

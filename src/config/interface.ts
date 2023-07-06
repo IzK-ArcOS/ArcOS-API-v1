@@ -9,6 +9,7 @@ export interface Configuration {
   maxFSSize: number;
   authCode: string;
   noCaching: boolean;
+  lockThrottle: number;
 }
 
 export interface FlexibleConfiguration {
@@ -22,4 +23,5 @@ export interface FlexibleConfiguration {
   maxFSSize?: number;
   authCode?: string;
   noCaching?: boolean;
+  lockThrottle?: number;
 }

@@ -8,5 +8,6 @@
   },
   "maxFSSize": 2147483648,
   "authCode": "",
-  "noCaching": true
+  "noCaching": true,
+  "lockThrottle": 10
 }

@@ -7,6 +7,7 @@ import { checkAuthcode } from "./authcode";
 import { Endpoint } from "./endpoint/main";
 import { serverListener } from "./listen";
 import { Error, Ok } from "./return";
+import { CONFIG } from "../config/store";
 
 const lock = new Lock();
 
@@ -41,7 +42,7 @@ export async function makeServer(
       }
 
       await serverListener(req, res, evaluator);
-      await sleep(10);
+      await sleep(CONFIG.lockThrottle || 10);
 
       lock.set(false);
     }
