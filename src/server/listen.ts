@@ -59,6 +59,8 @@ export async function serverListener(
       Error("Not found", "The specified API path could not be found."),
       404
     );
+
+    return;
   }
   const endpoint = evaluator.get(pathName) as Endpoint;
   const { username, password } = getAuth(req);

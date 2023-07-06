@@ -27,10 +27,8 @@ export async function makeServer(
 
       await waitForLock(lock);
 
-      lock.set(true);
-
       if (!checkAuthcode(req)) {
-        Ok(
+        return Ok(
           res,
           Error(
             "Can't process request",
@@ -40,6 +38,8 @@ export async function makeServer(
           403
         );
       }
+
+      lock.set(true);
 
       await serverListener(req, res, evaluator);
       await sleep(CONFIG.lockThrottle || 10);
