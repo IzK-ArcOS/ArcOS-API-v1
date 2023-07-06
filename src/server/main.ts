@@ -9,7 +9,7 @@ import { serverListener } from "./listen";
 import { Error, Ok } from "./return";
 import { CONFIG } from "../config/store";
 
-const lock = new Lock();
+export const reqLock = new Lock();
 
 export async function makeServer(
   port: number,
@@ -25,7 +25,7 @@ export async function makeServer(
     async (req: IncomingMessage, res: ServerResponse) => {
       res.setHeader("content-type", "application/json");
 
-      await waitForLock(lock);
+      await waitForLock(reqLock);
 
       if (!checkAuthcode(req)) {
         return Ok(
@@ -39,12 +39,12 @@ export async function makeServer(
         );
       }
 
-      lock.set(true);
+      reqLock.set(true);
 
       await serverListener(req, res, evaluator);
       await sleep(CONFIG.lockThrottle || 10);
 
-      lock.set(false);
+      reqLock.set(false);
     }
   );
 
