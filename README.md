@@ -1,5 +1,7 @@
 # ArcOS Backend API
 
+> **NOTE**: This API is outdated and should not be used. Please use [v2](https://github.com/IzK-ArcOS/ArcOS-API-Rewritten).
+
 This API is used by the ArcOS frontend to access the file system and store user preferences in one centralized location.
 
 ## Running the API
